@@ -65,6 +65,94 @@
         .offcanvas-header { background-color: var(--primary-red); color: white; }
         .nav-link-custom { padding: 12px 20px; border-bottom: 1px solid #eee; color: #333; text-decoration: none; display: block; font-weight: 500; transition: 0.2s; }
         .nav-link-custom:hover { background-color: #fff5f5; color: var(--primary-red); }
+
+        /* ===== SEAT AVAILABILITY MODAL STYLES ===== */
+        #seatModal .modal-header { background-color: var(--primary-red); color: white; border-radius: 0; }
+        #seatModal .modal-header .btn-close { filter: invert(1); }
+        #seatModal .modal-content { border-radius: 16px; overflow: hidden; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+
+        .seat-availability-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 20px 24px;
+            border-bottom: 3px solid var(--primary-red);
+        }
+        .flight-route-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+        .route-city { font-size: 1.6rem; font-weight: 900; letter-spacing: -1px; }
+        .route-line { flex: 1; height: 1px; background: rgba(255,255,255,0.3); position: relative; max-width: 80px; }
+        .route-line::after { content: '✈'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0f3460; padding: 0 6px; font-size: 14px; }
+        .flight-meta { font-size: 0.75rem; opacity: 0.7; text-align: center; }
+
+        /* Seat Map */
+        .seat-map-container { padding: 20px 24px; }
+        .seat-class-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 1px; margin-bottom: 10px; }
+        .aircraft-body { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; }
+        .seat-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; justify-content: center; }
+        .seat-row-num { width: 20px; font-size: 0.65rem; color: #aaa; text-align: center; font-weight: 700; }
+        .seat-aisle { width: 20px; }
+
+        .seat-btn {
+            width: 36px; height: 36px; border-radius: 8px 8px 4px 4px;
+            border: 2px solid transparent;
+            font-size: 0.65rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s ease;
+            position: relative; display: flex; align-items: center; justify-content: center;
+        }
+        .seat-btn.occupied {
+            background: #e0e0e0; border-color: #c0c0c0; color: #aaa; cursor: not-allowed;
+        }
+        .seat-btn.occupied::after { content: '✕'; font-size: 14px; color: #bbb; }
+        .seat-btn.available {
+            background: #fff; border-color: var(--primary-red); color: var(--primary-red);
+            box-shadow: 0 2px 6px rgba(217,30,46,0.15);
+        }
+        .seat-btn.available:hover {
+            background: var(--primary-red); color: white; transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(217,30,46,0.35);
+        }
+        .seat-btn.selected {
+            background: var(--primary-red); color: white; border-color: #8b0000;
+            box-shadow: 0 4px 14px rgba(217,30,46,0.5); transform: translateY(-2px);
+        }
+        .seat-btn.selected::before { content: '✓'; font-size: 14px; }
+
+        .seat-legend { display: flex; gap: 16px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #666; }
+        .legend-dot { width: 14px; height: 14px; border-radius: 3px; }
+        .legend-dot.occ { background: #e0e0e0; border: 2px solid #c0c0c0; }
+        .legend-dot.avl { background: #fff; border: 2px solid var(--primary-red); }
+        .legend-dot.sel { background: var(--primary-red); border: 2px solid #8b0000; }
+
+        .availability-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(217,30,46,0.1); border: 1px solid rgba(217,30,46,0.3);
+            color: var(--primary-red); border-radius: 20px; padding: 4px 12px;
+            font-size: 0.75rem; font-weight: 700; margin-top: 8px;
+        }
+        .availability-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary-red); animation: blink 1.2s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .seat-info-strip {
+            background: #fff9f9; border-top: 1px solid #fde; padding: 14px 24px;
+        }
+        .selected-seat-display { font-size: 1.1rem; font-weight: 700; color: var(--primary-red); }
+        .modal-footer-custom { padding: 16px 24px; background: #fff; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        .btn-confirm-seat { background: var(--primary-red); color: white; border: none; border-radius: 10px; padding: 12px 28px; font-weight: 700; font-size: 0.95rem; flex: 1; transition: 0.2s; }
+        .btn-confirm-seat:hover:not(:disabled) { background: #b31421; }
+        .btn-confirm-seat:disabled { opacity: 0.45; cursor: not-allowed; }
+
+        /* Seat loading animation */
+        .seat-skeleton { animation: shimmer 1.2s infinite; background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; border-radius: 8px; }
+        @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+        .class-divider { text-align: center; color: #ccc; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin: 8px 0; display: flex; align-items: center; gap: 8px; }
+        .class-divider::before, .class-divider::after { content: ''; flex: 1; height: 1px; background: #e8e8e8; }
     </style>
 </head>
 <body>
@@ -77,6 +165,72 @@
         <p class="lead text-muted">You will recieve an email shortly.</p>
         <button class="btn btn-danger btn-lg px-5 mt-3 rounded-pill" onclick="location.reload()">Book Another</button>
     </div>
+</div>
+
+<!-- SEAT AVAILABILITY MODAL -->
+<div class="modal fade" id="seatModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:460px;">
+    <div class="modal-content">
+
+      <div class="seat-availability-header">
+        <div class="flight-route-display">
+          <span class="route-city" id="sm-from">DEL</span>
+          <div class="route-line"></div>
+          <span class="route-city" id="sm-to">BOM</span>
+        </div>
+        <div class="flight-meta" id="sm-meta">AI 865 &nbsp;·&nbsp; Economy &nbsp;·&nbsp; Staff Class</div>
+        <div class="text-center">
+          <span class="availability-badge"><span class="dot"></span><span id="sm-avail-count">2</span> Staff Seats Available</span>
+        </div>
+      </div>
+
+      <div class="seat-map-container">
+        <div class="seat-class-label text-center mb-2">Select Your Seat</div>
+
+        <div class="aircraft-body">
+          <!-- Rows 1-2: Business (occupied) -->
+          <div class="class-divider">Business Class</div>
+          <div id="businessRows"></div>
+
+          <div class="class-divider">Economy Class</div>
+          <!-- Rows 10-18: Economy with staff seats mixed in -->
+          <div id="economyRows"></div>
+
+          <!-- Column header -->
+          <div class="seat-row mt-2" style="opacity:0.5; font-size:0.65rem; font-weight:700; color:#999; justify-content:center; gap:6px;">
+            <span style="width:20px;"></span>
+            <span style="width:36px; text-align:center;">A</span>
+            <span style="width:36px; text-align:center;">B</span>
+            <span style="width:36px; text-align:center;">C</span>
+            <span style="width:20px;"></span>
+            <span style="width:36px; text-align:center;">D</span>
+            <span style="width:36px; text-align:center;">E</span>
+            <span style="width:36px; text-align:center;">F</span>
+          </div>
+        </div>
+
+        <div class="seat-legend">
+          <div class="legend-item"><div class="legend-dot occ"></div>Occupied</div>
+          <div class="legend-item"><div class="legend-dot avl"></div>Available</div>
+          <div class="legend-item"><div class="legend-dot sel"></div>Your Selection</div>
+        </div>
+      </div>
+
+      <div class="seat-info-strip">
+        <div class="t-label">Selected Seat</div>
+        <div class="selected-seat-display" id="sm-selected-label">— No seat chosen yet —</div>
+        <div id="sm-seat-note" style="display:none; font-size:0.72rem; color:#999; margin-top:6px; line-height:1.4;">
+          <i class="bi bi-info-circle me-1"></i>Seat allocation is tentative and may change subject to flight load at the time of departure.
+        </div>
+      </div>
+
+      <div class="modal-footer-custom">
+        <button class="btn btn-outline-secondary rounded-10 px-4 fw-600" style="border-radius:10px; font-weight:600;" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn-confirm-seat" id="confirmSeatBtn" disabled onclick="confirmSeatAndBook()">Confirm & Book</button>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <header class="container-fluid py-4 px-lg-5 border-bottom sticky-top bg-white">
@@ -186,6 +340,7 @@
                     <div class="ticket-stub">
                         <div class="t-label">Fare</div><div class="h4 fw-bold text-success" id="t-fare">₹0</div>
                         <div class="t-label mt-3">Date</div><div class="t-value" id="t-date">--</div>
+                        <div class="t-label mt-3">Seat</div><div class="t-value text-danger" id="t-seat">--</div>
                     </div>
                 </div>
             </div>
@@ -203,7 +358,9 @@
                 </table></div>
             </div>
         </div>
-        <button onclick="startBooking()" class="btn btn-success btn-lg mt-4 w-100 fw-bold py-3 shadow rounded-3">Proceed to Confirm Booking</button>
+        <button onclick="openSeatModal()" class="btn btn-success btn-lg mt-4 w-100 fw-bold py-3 shadow rounded-3">
+            <i class="bi bi-person-check-fill me-2"></i>Choose Seat & Confirm Booking
+        </button>
     </div>
 </main>
 
@@ -303,6 +460,7 @@
         document.getElementById('t-to').innerText = to.split(' (')[0];
         document.getElementById('t-date').innerText = dep;
         document.getElementById('t-fare').innerText = `₹${total.toFixed(0)}`;
+        document.getElementById('t-seat').innerText = '--';
 
         let travelHtml = `
             <tr><th class="py-3">Ticket ID</th><td class="py-3"><strong>#${ticketId}</strong></td></tr>
@@ -325,6 +483,144 @@
 
         document.getElementById('bookingSummary').style.display = 'block';
         window.scrollTo({ top: document.getElementById('bookingSummary').offsetTop - 50, behavior: 'smooth' });
+    }
+
+    // ============================================================
+    //  SEAT MAP LOGIC
+    // ============================================================
+
+    let selectedSeat = null;
+    let staffSeats = []; // which seats are available for staff
+
+    function getIATACode(fullName) {
+        const match = fullName.match(/\(([^)]+)\)/);
+        return match ? match[1] : fullName.substring(0, 3).toUpperCase();
+    }
+
+    function openSeatModal() {
+        const from = document.getElementById('origin').value;
+        const to = document.getElementById('destination').value;
+        const dep = depDateInput.value;
+
+        // Reset selection
+        selectedSeat = null;
+        document.getElementById('sm-selected-label').textContent = '— No seat chosen yet —';
+        document.getElementById('sm-seat-note').style.display = 'none';
+        document.getElementById('confirmSeatBtn').disabled = true;
+
+        // Update modal header
+        document.getElementById('sm-from').textContent = getIATACode(from);
+        document.getElementById('sm-to').textContent = getIATACode(to);
+        document.getElementById('sm-meta').textContent = `AI 865  ·  ${dep}  ·  Staff Class`;
+
+        // Decide how many staff seats: 2 or 3
+        const totalStaffSeats = Math.random() < 0.5 ? 2 : 3;
+        document.getElementById('sm-avail-count').textContent = totalStaffSeats;
+
+        // Build seat map
+        buildSeatMap(totalStaffSeats);
+
+        const modal = new bootstrap.Modal(document.getElementById('seatModal'));
+        modal.show();
+    }
+
+    function buildSeatMap(availableCount) {
+        staffSeats = [];
+
+        // ---------- BUSINESS CLASS (rows 1-3, all occupied) ----------
+        const bizContainer = document.getElementById('businessRows');
+        bizContainer.innerHTML = '';
+        for (let row = 1; row <= 3; row++) {
+            bizContainer.appendChild(buildRow(row, ['A','B','C','D','E','F'], [], true));
+        }
+
+        // ---------- ECONOMY CLASS (rows 10-18) ----------
+        // Randomly assign available staff seats across economy
+        const ecoRows = [10, 11, 12, 13, 14, 15, 16, 17, 18];
+        const cols = ['A','B','C','D','E','F'];
+        const allEcoSeats = [];
+        ecoRows.forEach(r => cols.forEach(c => allEcoSeats.push(`${r}${c}`)));
+
+        // Pick random staff available seats
+        const shuffled = allEcoSeats.sort(() => Math.random() - 0.5);
+        staffSeats = shuffled.slice(0, availableCount);
+
+        const ecoContainer = document.getElementById('economyRows');
+        ecoContainer.innerHTML = '';
+        ecoRows.forEach(row => {
+            ecoContainer.appendChild(buildRow(row, cols, staffSeats, false));
+        });
+    }
+
+    function buildRow(rowNum, cols, availableSeats, allOccupied) {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'seat-row';
+
+        // Row number
+        const numEl = document.createElement('span');
+        numEl.className = 'seat-row-num';
+        numEl.textContent = rowNum;
+        rowEl.appendChild(numEl);
+
+        cols.forEach((col, idx) => {
+            // Aisle gap between C and D
+            if (idx === 3) {
+                const aisle = document.createElement('span');
+                aisle.className = 'seat-aisle';
+                rowEl.appendChild(aisle);
+            }
+
+            const seatId = `${rowNum}${col}`;
+            const btn = document.createElement('button');
+            btn.className = 'seat-btn';
+            btn.setAttribute('data-seat', seatId);
+
+            const isAvailable = !allOccupied && availableSeats.includes(seatId);
+
+            if (isAvailable) {
+                btn.classList.add('available');
+                btn.title = `Seat ${seatId} — Available for Staff`;
+                btn.onclick = () => selectSeat(seatId, btn);
+            } else {
+                btn.classList.add('occupied');
+                btn.disabled = true;
+                btn.title = `Seat ${seatId} — Occupied`;
+            }
+
+            rowEl.appendChild(btn);
+        });
+
+        return rowEl;
+    }
+
+    function selectSeat(seatId, btnEl) {
+        // Deselect previous
+        document.querySelectorAll('.seat-btn.selected').forEach(b => {
+            b.classList.remove('selected');
+            b.classList.add('available');
+        });
+
+        // Select this
+        btnEl.classList.remove('available');
+        btnEl.classList.add('selected');
+        selectedSeat = seatId;
+
+        document.getElementById('sm-selected-label').textContent = `Seat ${seatId}  ·  Economy  ·  Staff Allocation`;
+        document.getElementById('sm-seat-note').style.display = 'block';
+        document.getElementById('confirmSeatBtn').disabled = false;
+    }
+
+    function confirmSeatAndBook() {
+        if (!selectedSeat) return;
+
+        // Update boarding pass seat
+        document.getElementById('t-seat').textContent = selectedSeat;
+
+        // Close modal
+        bootstrap.Modal.getInstance(document.getElementById('seatModal')).hide();
+
+        // Start booking process (original flow)
+        startBooking();
     }
 
     function startBooking() {
