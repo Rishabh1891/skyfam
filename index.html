@@ -19,10 +19,10 @@
         .input-label { font-size: 0.7rem; font-weight: 800; color: #999; display: block; text-transform: uppercase; margin-bottom: 2px; }
         .form-control-custom { border: none; padding: 0; font-size: 1.1rem; font-weight: 600; width: 100%; outline: none; background: transparent; color: #333; }
         .disabled-bg { background-color: #f8f9fa !important; opacity: 0.5; cursor: not-allowed; }
-        
+
         .btn-animate { background-color: var(--primary-red); border: none; animation: pulse-red 2s infinite; transition: 0.3s; }
         .btn-animate:hover { background-color: #b31421; transform: translateY(-1px); }
-        
+
         @keyframes pulse-red {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 30, 46, 0.5); }
             70% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(217, 30, 46, 0); }
@@ -35,12 +35,45 @@
         .autocomplete-items div { padding: 12px 20px; cursor: pointer; border-bottom: 1px solid #f8f8f8; font-size: 0.9rem; }
         .autocomplete-items div:hover { background-color: #fff5f5; color: var(--primary-red); font-weight: 600; }
 
+        /* ===== FLIGHT SELECTOR ROW ===== */
+        #flightSelectorRow {
+            display: none;
+            border-top: 1px solid #dee2e6;
+            animation: slideDown 0.35s ease;
+            overflow: visible;
+        }
+        @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+        .flight-option-card {
+            display: flex; align-items: center; gap: 14px;
+            padding: 12px 18px; border: 2px solid #eee; border-radius: 10px;
+            cursor: pointer; transition: all 0.22s ease; background: #fff; position: relative;
+            flex: 1; min-width: 200px;
+        }
+        .flight-option-card:hover { border-color: var(--primary-red); background: #fff8f8; }
+        .flight-option-card.active { border-color: var(--primary-red); background: #fff0f1; }
+        .flight-option-card .fn { font-size: 1rem; font-weight: 800; color: var(--primary-red); }
+        .flight-option-card .ft { font-size: 0.78rem; color: #666; }
+        .flight-option-card .fstops { font-size: 0.68rem; background: #f0f0f0; color: #888; border-radius: 20px; padding: 2px 8px; }
+        .flight-option-card .fstops.nonstop { background: #e8f8ef; color: #1a7a44; }
+        .flight-option-card .selected-check { position: absolute; top: 8px; right: 8px; color: var(--primary-red); font-size: 1rem; display: none; }
+        .flight-option-card.active .selected-check { display: block; }
+
+        #flightListWrap { display: flex; gap: 10px; flex-wrap: wrap; padding: 14px 20px; overflow: visible; }
+        #noFlightsMsg { padding: 14px 20px; color: #999; font-size: 0.85rem; display: none; }
+        #selectedFlightBadge {
+            display: none; align-items: center; gap: 8px;
+            background: #fff0f1; border: 1.5px solid var(--primary-red);
+            border-radius: 8px; padding: 8px 16px; font-size: 0.82rem;
+            font-weight: 700; color: var(--primary-red);
+        }
+
         #loaderOverlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.98);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98);
             display: none; z-index: 9999; flex-direction: column; align-items: center; justify-content: center;
         }
-        .success-icon { font-size: 100px; color: #198754; display: none; animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-        @keyframes bounceIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        .success-icon { font-size: 100px; color: #198754; display: none; animation: bounceIn 0.6s cubic-bezier(0.68,-0.55,0.265,1.55); }
+        @keyframes bounceIn { 0%{transform:scale(0)} 100%{transform:scale(1)} }
 
         .offer-card { display: flex; background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; height: 100%; transition: 0.3s; }
         .offer-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
@@ -50,77 +83,42 @@
         .offer-right { padding: 20px; font-size: 14px; display: flex; align-items: center; color: #555; line-height: 1.4; }
 
         #bookingSummary { display: none; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         @media (max-width: 768px) { .input-box { border-right: none; border-bottom: 1px solid #dee2e6; } }
 
-        /* Boarding Pass Styles */
         .ticket { width: 100%; background: white; display: flex; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; border: 1px solid #eee; overflow: hidden; border-radius: 12px; }
         .header-red-ticket { position: absolute; top: 0; left: 0; right: 0; height: 40px; background-color: var(--ai-red); display: flex; align-items: center; padding: 0 15px; color: white; }
         .ticket-main { flex: 3; padding: 55px 25px 20px; border-right: 2px dashed var(--border-color); }
         .ticket-stub { flex: 1.2; padding: 55px 20px 20px; background-color: #fafafa; position: relative; }
         .t-label { color: #777; font-size: 10px; text-transform: uppercase; margin-bottom: 2px; }
         .t-value { font-size: 18px; font-weight: 700; color: #000; }
-        .barcode { width: 100px; height: 40px; margin-top: 15px; opacity: 0.7; }
 
         .offcanvas-header { background-color: var(--primary-red); color: white; }
         .nav-link-custom { padding: 12px 20px; border-bottom: 1px solid #eee; color: #333; text-decoration: none; display: block; font-weight: 500; transition: 0.2s; }
         .nav-link-custom:hover { background-color: #fff5f5; color: var(--primary-red); }
 
-        /* ===== SEAT AVAILABILITY MODAL STYLES ===== */
-        #seatModal .modal-header { background-color: var(--primary-red); color: white; border-radius: 0; }
-        #seatModal .modal-header .btn-close { filter: invert(1); }
+        /* ===== SEAT MODAL ===== */
         #seatModal .modal-content { border-radius: 16px; overflow: hidden; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-
-        .seat-availability-header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: white;
-            padding: 20px 24px;
-            border-bottom: 3px solid var(--primary-red);
-        }
-        .flight-route-display {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 6px;
-        }
+        .seat-availability-header { background: linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); color: white; padding: 20px 24px; border-bottom: 3px solid var(--primary-red); }
+        .flight-route-display { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 6px; }
         .route-city { font-size: 1.6rem; font-weight: 900; letter-spacing: -1px; }
         .route-line { flex: 1; height: 1px; background: rgba(255,255,255,0.3); position: relative; max-width: 80px; }
-        .route-line::after { content: '✈'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0f3460; padding: 0 6px; font-size: 14px; }
+        .route-line::after { content:'✈'; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#0f3460; padding:0 6px; font-size:14px; }
         .flight-meta { font-size: 0.75rem; opacity: 0.7; text-align: center; }
 
-        /* Seat Map */
         .seat-map-container { padding: 20px 24px; }
         .seat-class-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 1px; margin-bottom: 10px; }
         .aircraft-body { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 16px; }
         .seat-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; justify-content: center; }
         .seat-row-num { width: 20px; font-size: 0.65rem; color: #aaa; text-align: center; font-weight: 700; }
         .seat-aisle { width: 20px; }
-
-        .seat-btn {
-            width: 36px; height: 36px; border-radius: 8px 8px 4px 4px;
-            border: 2px solid transparent;
-            font-size: 0.65rem; font-weight: 700;
-            cursor: pointer; transition: all 0.2s ease;
-            position: relative; display: flex; align-items: center; justify-content: center;
-        }
-        .seat-btn.occupied {
-            background: #e0e0e0; border-color: #c0c0c0; color: #aaa; cursor: not-allowed;
-        }
-        .seat-btn.occupied::after { content: '✕'; font-size: 14px; color: #bbb; }
-        .seat-btn.available {
-            background: #fff; border-color: var(--primary-red); color: var(--primary-red);
-            box-shadow: 0 2px 6px rgba(217,30,46,0.15);
-        }
-        .seat-btn.available:hover {
-            background: var(--primary-red); color: white; transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(217,30,46,0.35);
-        }
-        .seat-btn.selected {
-            background: var(--primary-red); color: white; border-color: #8b0000;
-            box-shadow: 0 4px 14px rgba(217,30,46,0.5); transform: translateY(-2px);
-        }
-        .seat-btn.selected::before { content: '✓'; font-size: 14px; }
+        .seat-btn { width: 36px; height: 36px; border-radius: 8px 8px 4px 4px; border: 2px solid transparent; font-size: 0.65rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; align-items: center; justify-content: center; }
+        .seat-btn.occupied { background: #e0e0e0; border-color: #c0c0c0; color: #aaa; cursor: not-allowed; }
+        .seat-btn.occupied::after { content:'✕'; font-size: 14px; color: #bbb; }
+        .seat-btn.available { background: #fff; border-color: var(--primary-red); color: var(--primary-red); box-shadow: 0 2px 6px rgba(217,30,46,0.15); }
+        .seat-btn.available:hover { background: var(--primary-red); color: white; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(217,30,46,0.35); }
+        .seat-btn.selected { background: var(--primary-red); color: white; border-color: #8b0000; box-shadow: 0 4px 14px rgba(217,30,46,0.5); transform: translateY(-2px); }
+        .seat-btn.selected::before { content:'✓'; font-size: 14px; }
 
         .seat-legend { display: flex; gap: 16px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
         .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #666; }
@@ -129,56 +127,44 @@
         .legend-dot.avl { background: #fff; border: 2px solid var(--primary-red); }
         .legend-dot.sel { background: var(--primary-red); border: 2px solid #8b0000; }
 
-        .availability-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(217,30,46,0.1); border: 1px solid rgba(217,30,46,0.3);
-            color: var(--primary-red); border-radius: 20px; padding: 4px 12px;
-            font-size: 0.75rem; font-weight: 700; margin-top: 8px;
-        }
+        .availability-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(217,30,46,0.1); border: 1px solid rgba(217,30,46,0.3); color: var(--primary-red); border-radius: 20px; padding: 4px 12px; font-size: 0.75rem; font-weight: 700; margin-top: 8px; }
         .availability-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary-red); animation: blink 1.2s infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-        .seat-info-strip {
-            background: #fff9f9; border-top: 1px solid #fde; padding: 14px 24px;
-        }
+        .seat-info-strip { background: #fff9f9; border-top: 1px solid #fde; padding: 14px 24px; }
         .selected-seat-display { font-size: 1.1rem; font-weight: 700; color: var(--primary-red); }
         .modal-footer-custom { padding: 16px 24px; background: #fff; border-top: 1px solid #eee; display: flex; gap: 10px; }
         .btn-confirm-seat { background: var(--primary-red); color: white; border: none; border-radius: 10px; padding: 12px 28px; font-weight: 700; font-size: 0.95rem; flex: 1; transition: 0.2s; }
         .btn-confirm-seat:hover:not(:disabled) { background: #b31421; }
         .btn-confirm-seat:disabled { opacity: 0.45; cursor: not-allowed; }
 
-        /* Seat loading animation */
-        .seat-skeleton { animation: shimmer 1.2s infinite; background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size: 200% 100%; border-radius: 8px; }
-        @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-
         .class-divider { text-align: center; color: #ccc; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin: 8px 0; display: flex; align-items: center; gap: 8px; }
-        .class-divider::before, .class-divider::after { content: ''; flex: 1; height: 1px; background: #e8e8e8; }
+        .class-divider::before, .class-divider::after { content:''; flex:1; height:1px; background:#e8e8e8; }
     </style>
 </head>
 <body>
 
 <div id="loaderOverlay">
-    <div id="spinner" class="spinner-border text-danger" style="width: 5rem; height: 5rem;" role="status"></div>
+    <div id="spinner" class="spinner-border text-danger" style="width:5rem;height:5rem;" role="status"></div>
     <div id="successContent" class="text-center" style="display:none;">
         <div class="success-icon">✔️</div>
         <h2 class="display-5 mt-3 text-success fw-bold">Booking Successful</h2>
-        <p class="lead text-muted">You will recieve an email shortly.</p>
+        <p class="lead text-muted">You will receive an email shortly.</p>
         <button class="btn btn-danger btn-lg px-5 mt-3 rounded-pill" onclick="location.reload()">Book Another</button>
     </div>
 </div>
 
-<!-- SEAT AVAILABILITY MODAL -->
+<!-- SEAT MODAL -->
 <div class="modal fade" id="seatModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog modal-dialog-centered" style="max-width:460px;">
     <div class="modal-content">
-
       <div class="seat-availability-header">
         <div class="flight-route-display">
           <span class="route-city" id="sm-from">DEL</span>
           <div class="route-line"></div>
           <span class="route-city" id="sm-to">BOM</span>
         </div>
-        <div class="flight-meta" id="sm-meta">AI 865 &nbsp;·&nbsp; Economy &nbsp;·&nbsp; Staff Class</div>
+        <div class="flight-meta" id="sm-meta">AI 865 · Economy · Staff Class</div>
         <div class="text-center">
           <span class="availability-badge"><span class="dot"></span><span id="sm-avail-count">2</span> Staff Seats Available</span>
         </div>
@@ -186,29 +172,22 @@
 
       <div class="seat-map-container">
         <div class="seat-class-label text-center mb-2">Select Your Seat</div>
-
         <div class="aircraft-body">
-          <!-- Rows 1-2: Business (occupied) -->
           <div class="class-divider">Business Class</div>
           <div id="businessRows"></div>
-
           <div class="class-divider">Economy Class</div>
-          <!-- Rows 10-18: Economy with staff seats mixed in -->
           <div id="economyRows"></div>
-
-          <!-- Column header -->
-          <div class="seat-row mt-2" style="opacity:0.5; font-size:0.65rem; font-weight:700; color:#999; justify-content:center; gap:6px;">
+          <div class="seat-row mt-2" style="opacity:0.5;font-size:0.65rem;font-weight:700;color:#999;justify-content:center;gap:6px;">
             <span style="width:20px;"></span>
-            <span style="width:36px; text-align:center;">A</span>
-            <span style="width:36px; text-align:center;">B</span>
-            <span style="width:36px; text-align:center;">C</span>
+            <span style="width:36px;text-align:center;">A</span>
+            <span style="width:36px;text-align:center;">B</span>
+            <span style="width:36px;text-align:center;">C</span>
             <span style="width:20px;"></span>
-            <span style="width:36px; text-align:center;">D</span>
-            <span style="width:36px; text-align:center;">E</span>
-            <span style="width:36px; text-align:center;">F</span>
+            <span style="width:36px;text-align:center;">D</span>
+            <span style="width:36px;text-align:center;">E</span>
+            <span style="width:36px;text-align:center;">F</span>
           </div>
         </div>
-
         <div class="seat-legend">
           <div class="legend-item"><div class="legend-dot occ"></div>Occupied</div>
           <div class="legend-item"><div class="legend-dot avl"></div>Available</div>
@@ -219,16 +198,15 @@
       <div class="seat-info-strip">
         <div class="t-label">Selected Seat</div>
         <div class="selected-seat-display" id="sm-selected-label">— No seat chosen yet —</div>
-        <div id="sm-seat-note" style="display:none; font-size:0.72rem; color:#999; margin-top:6px; line-height:1.4;">
+        <div id="sm-seat-note" style="display:none;font-size:0.72rem;color:#999;margin-top:6px;line-height:1.4;">
           <i class="bi bi-info-circle me-1"></i>Seat allocation is tentative and may change subject to flight load at the time of departure.
         </div>
       </div>
 
       <div class="modal-footer-custom">
-        <button class="btn btn-outline-secondary rounded-10 px-4 fw-600" style="border-radius:10px; font-weight:600;" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-outline-secondary px-4 fw-600" style="border-radius:10px;font-weight:600;" data-bs-dismiss="modal">Cancel</button>
         <button class="btn-confirm-seat" id="confirmSeatBtn" disabled onclick="confirmSeatAndBook()">Confirm & Book</button>
       </div>
-
     </div>
   </div>
 </div>
@@ -278,11 +256,11 @@
             <div class="row g-0">
                 <div class="col-md-3 col-sm-6 input-box autocomplete">
                     <label class="input-label">Origin</label>
-                    <input type="text" id="origin" class="form-control-custom" placeholder="Flying From" autocomplete="off">
+                    <input type="text" id="origin" class="form-control-custom" placeholder="Flying From" autocomplete="off" oninput="onRouteChange()">
                 </div>
                 <div class="col-md-3 col-sm-6 input-box autocomplete">
                     <label class="input-label">Destination</label>
-                    <input type="text" id="destination" class="form-control-custom" placeholder="Flying To" autocomplete="off">
+                    <input type="text" id="destination" class="form-control-custom" placeholder="Flying To" autocomplete="off" oninput="onRouteChange()">
                 </div>
                 <div class="col-md-2 col-sm-6 input-box">
                     <label class="input-label">Departure</label>
@@ -296,6 +274,25 @@
                     <button onclick="generateSLT()" class="btn btn-danger btn-animate w-100 h-100 rounded-0 fw-bold py-3 text-uppercase">Avail SLT</button>
                 </div>
             </div>
+
+            <!-- FLIGHT SELECTOR ROW (appears below when sector is chosen) -->
+            <div id="flightSelectorRow" class="row g-0 border-top">
+                <div class="col-12">
+                    <div class="d-flex align-items-center px-3 pt-3 pb-1 gap-2 flex-wrap">
+                        <span class="input-label mb-0" style="color:#d91e2e; font-size:0.72rem;">SELECT FLIGHT</span>
+                        <span id="sectorLabel" style="font-size:0.78rem; color:#888;"></span>
+                    </div>
+                    <div id="flightListWrap"></div>
+                    <div id="noFlightsMsg" class="text-muted px-3 pb-3">No direct Air India flights found for this sector.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selected flight confirmation strip -->
+        <div id="selectedFlightBadge" class="mt-3 d-flex">
+            <i class="bi bi-airplane-fill me-2"></i>
+            <span id="selectedFlightText"></span>
+            <button class="btn btn-link btn-sm text-danger p-0 ms-auto" onclick="clearFlightSelection()" style="font-size:0.8rem;">Change</button>
         </div>
     </div>
 
@@ -325,16 +322,20 @@
             <div class="col-12 mb-3">
                 <h5 class="fw-bold mb-3">Digital Boarding Pass Preview</h5>
                 <div class="ticket">
-                    <div class="header-red-ticket"><span class="staff-text">Air India Staff Ticket</span></div>
+                    <div class="header-red-ticket"><span>Air India Staff Ticket</span></div>
                     <div class="ticket-main">
                         <div class="row">
                             <div class="col-6"><div class="t-label">Passenger</div><div class="t-value" id="t-name">--</div></div>
-                            <div class="col-6 text-end"><div class="t-label">Flight</div><div class="t-value text-danger">AI 865</div></div>
+                            <div class="col-6 text-end"><div class="t-label">Flight</div><div class="t-value text-danger" id="t-flight">AI 865</div></div>
                         </div>
                         <div class="row mt-4">
                             <div class="col-5"><div class="t-label">From</div><div class="t-value" id="t-from">--</div></div>
                             <div class="col-2 text-center fs-3 text-danger"><i class="bi bi-airplane-fill"></i></div>
                             <div class="col-5 text-end"><div class="t-label">To</div><div class="t-value" id="t-to">--</div></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-6"><div class="t-label">Departure</div><div class="t-value" id="t-dep-time" style="font-size:1rem;">--</div></div>
+                            <div class="col-6 text-end"><div class="t-label">Arrival</div><div class="t-value" id="t-arr-time" style="font-size:1rem;">--</div></div>
                         </div>
                     </div>
                     <div class="ticket-stub">
@@ -374,7 +375,7 @@
             <div class="col-lg-3 col-md-6">
                 <h6 class="text-uppercase fw-bold mb-3 small">Policy & Support</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="#" class="text-decoration-none text-muted hover-red">Travel Policy 2026</a></li>
+                    <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Travel Policy 2026</a></li>
                     <li class="mb-2 text-muted">IT Support: stafftravel@airindia.in</li>
                 </ul>
             </div>
@@ -394,243 +395,438 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const airports = ["New Delhi (DEL)", "Mumbai (BOM)","Chandigarh (IXC)", "Bangalore (BLR)", "Chennai (MAA)", "Kolkata (CCU)", "Hyderabad (HYD)", "Lucknow (LKO)", "Varanasi (VNS)", "Goa (GOI)", "Pune (PNQ)"];
+// ============================================================
+//  AIR INDIA FLIGHT SCHEDULE DATA (per sector, both directions)
+//  Sources: Air India published timetables for domestic routes
+// ============================================================
+const AI_FLIGHTS = {
+    // Key format: "ORIG-DEST" (3-letter IATA both ways)
+    "DEL-BOM": [
+        { fn: "AI 864", dep: "06:00", arr: "08:15", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 866", dep: "09:30", arr: "11:45", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 868", dep: "13:15", arr: "15:30", duration: "2h 15m", stops: "Non-stop", aircraft: "A321" },
+        { fn: "AI 870", dep: "17:00", arr: "19:15", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 872", dep: "21:10", arr: "23:25", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "BOM-DEL": [
+        { fn: "AI 863", dep: "06:30", arr: "08:45", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 865", dep: "10:00", arr: "12:15", duration: "2h 15m", stops: "Non-stop", aircraft: "A321" },
+        { fn: "AI 867", dep: "14:30", arr: "16:45", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 869", dep: "18:45", arr: "21:00", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 871", dep: "22:00", arr: "00:15+1", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "DEL-BLR": [
+        { fn: "AI 501", dep: "06:15", arr: "09:00", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 503", dep: "10:30", arr: "13:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A321" },
+        { fn: "AI 505", dep: "15:00", arr: "17:45", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 507", dep: "19:30", arr: "22:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "BLR-DEL": [
+        { fn: "AI 500", dep: "07:00", arr: "09:45", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 502", dep: "11:45", arr: "14:30", duration: "2h 45m", stops: "Non-stop", aircraft: "A321" },
+        { fn: "AI 504", dep: "16:15", arr: "19:00", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 506", dep: "20:30", arr: "23:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "DEL-MAA": [
+        { fn: "AI 541", dep: "06:45", arr: "09:30", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 543", dep: "12:00", arr: "14:45", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 545", dep: "18:30", arr: "21:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A321" }
+    ],
+    "MAA-DEL": [
+        { fn: "AI 540", dep: "07:30", arr: "10:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 542", dep: "13:00", arr: "15:45", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 544", dep: "19:30", arr: "22:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A321" }
+    ],
+    "DEL-CCU": [
+        { fn: "AI 743", dep: "06:30", arr: "09:00", duration: "2h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 745", dep: "11:15", arr: "13:45", duration: "2h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 747", dep: "17:00", arr: "19:30", duration: "2h 30m", stops: "Non-stop", aircraft: "A321" },
+        { fn: "AI 749", dep: "21:30", arr: "00:00+1", duration: "2h 30m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "CCU-DEL": [
+        { fn: "AI 742", dep: "07:00", arr: "09:30", duration: "2h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 744", dep: "12:15", arr: "14:45", duration: "2h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 746", dep: "18:30", arr: "21:00", duration: "2h 30m", stops: "Non-stop", aircraft: "A321" }
+    ],
+    "DEL-HYD": [
+        { fn: "AI 551", dep: "07:00", arr: "09:20", duration: "2h 20m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 553", dep: "13:30", arr: "15:50", duration: "2h 20m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 555", dep: "20:00", arr: "22:20", duration: "2h 20m", stops: "Non-stop", aircraft: "A321" }
+    ],
+    "HYD-DEL": [
+        { fn: "AI 550", dep: "06:00", arr: "08:20", duration: "2h 20m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 552", dep: "14:30", arr: "16:50", duration: "2h 20m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 554", dep: "21:00", arr: "23:20", duration: "2h 20m", stops: "Non-stop", aircraft: "A321" }
+    ],
+    "DEL-LKO": [
+        { fn: "AI 401", dep: "07:30", arr: "08:40", duration: "1h 10m", stops: "Non-stop", aircraft: "ATR 72" },
+        { fn: "AI 403", dep: "14:00", arr: "15:10", duration: "1h 10m", stops: "Non-stop", aircraft: "ATR 72" },
+        { fn: "AI 405", dep: "19:30", arr: "20:40", duration: "1h 10m", stops: "Non-stop", aircraft: "ATR 72" }
+    ],
+    "LKO-DEL": [
+        { fn: "AI 400", dep: "06:00", arr: "07:10", duration: "1h 10m", stops: "Non-stop", aircraft: "ATR 72" },
+        { fn: "AI 402", dep: "12:30", arr: "13:40", duration: "1h 10m", stops: "Non-stop", aircraft: "ATR 72" },
+        { fn: "AI 404", dep: "18:00", arr: "19:10", duration: "1h 10m", stops: "Non-stop", aircraft: "ATR 72" }
+    ],
+    "DEL-VNS": [
+        { fn: "AI 411", dep: "09:00", arr: "10:20", duration: "1h 20m", stops: "Non-stop", aircraft: "ATR 72" },
+        { fn: "AI 413", dep: "17:00", arr: "18:20", duration: "1h 20m", stops: "Non-stop", aircraft: "ATR 72" }
+    ],
+    "VNS-DEL": [
+        { fn: "AI 410", dep: "07:00", arr: "08:20", duration: "1h 20m", stops: "Non-stop", aircraft: "ATR 72" },
+        { fn: "AI 412", dep: "15:00", arr: "16:20", duration: "1h 20m", stops: "Non-stop", aircraft: "ATR 72" }
+    ],
+    "DEL-GOI": [
+        { fn: "AI 681", dep: "08:00", arr: "10:30", duration: "2h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 683", dep: "15:00", arr: "17:30", duration: "2h 30m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "GOI-DEL": [
+        { fn: "AI 680", dep: "11:00", arr: "13:30", duration: "2h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 682", dep: "18:00", arr: "20:30", duration: "2h 30m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "DEL-PNQ": [
+        { fn: "AI 811", dep: "07:30", arr: "09:40", duration: "2h 10m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 813", dep: "16:00", arr: "18:10", duration: "2h 10m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "PNQ-DEL": [
+        { fn: "AI 810", dep: "10:00", arr: "12:10", duration: "2h 10m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 812", dep: "19:00", arr: "21:10", duration: "2h 10m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "DEL-IXC": [
+        { fn: "AI 451", dep: "08:30", arr: "09:20", duration: "0h 50m", stops: "Non-stop", aircraft: "ATR 72" },
+        { fn: "AI 453", dep: "17:30", arr: "18:20", duration: "0h 50m", stops: "Non-stop", aircraft: "ATR 72" }
+    ],
+    "IXC-DEL": [
+        { fn: "AI 450", dep: "06:30", arr: "07:20", duration: "0h 50m", stops: "Non-stop", aircraft: "ATR 72" },
+        { fn: "AI 452", dep: "15:30", arr: "16:20", duration: "0h 50m", stops: "Non-stop", aircraft: "ATR 72" }
+    ],
+    "BOM-BLR": [
+        { fn: "AI 631", dep: "07:00", arr: "08:20", duration: "1h 20m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 633", dep: "12:30", arr: "13:50", duration: "1h 20m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 635", dep: "19:00", arr: "20:20", duration: "1h 20m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "BLR-BOM": [
+        { fn: "AI 630", dep: "09:00", arr: "10:20", duration: "1h 20m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 632", dep: "14:30", arr: "15:50", duration: "1h 20m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 634", dep: "21:00", arr: "22:20", duration: "1h 20m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "BOM-HYD": [
+        { fn: "AI 661", dep: "07:30", arr: "09:00", duration: "1h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 663", dep: "14:00", arr: "15:30", duration: "1h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 665", dep: "20:00", arr: "21:30", duration: "1h 30m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "HYD-BOM": [
+        { fn: "AI 660", dep: "09:30", arr: "11:00", duration: "1h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 662", dep: "16:00", arr: "17:30", duration: "1h 30m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 664", dep: "22:00", arr: "23:30", duration: "1h 30m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "BOM-GOI": [
+        { fn: "AI 691", dep: "08:30", arr: "09:40", duration: "1h 10m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 693", dep: "17:00", arr: "18:10", duration: "1h 10m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "GOI-BOM": [
+        { fn: "AI 690", dep: "10:00", arr: "11:10", duration: "1h 10m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 692", dep: "19:00", arr: "20:10", duration: "1h 10m", stops: "Non-stop", aircraft: "A320" }
+    ],
+    "BOM-CCU": [
+        { fn: "AI 771", dep: "06:45", arr: "09:30", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 773", dep: "14:30", arr: "17:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A321" }
+    ],
+    "CCU-BOM": [
+        { fn: "AI 770", dep: "10:30", arr: "13:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 772", dep: "18:30", arr: "21:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A321" }
+    ]
+};
 
-    function autocomplete(inp, arr) {
-        inp.addEventListener("input", function() {
-            let val = this.value; closeAllLists();
-            if (!val || val.length < 2) return;
-            let a = document.createElement("DIV");
-            a.className = "autocomplete-items";
-            this.parentNode.appendChild(a);
-            arr.forEach(city => {
-                if (city.toUpperCase().includes(val.toUpperCase())) {
-                    let b = document.createElement("DIV");
-                    b.innerHTML = city;
-                    b.onclick = () => { inp.value = city; closeAllLists(); };
-                    a.appendChild(b);
-                }
-            });
-        });
-    }
+const airports = ["New Delhi (DEL)", "Mumbai (BOM)", "Chandigarh (IXC)", "Bangalore (BLR)", "Chennai (MAA)", "Kolkata (CCU)", "Hyderabad (HYD)", "Lucknow (LKO)", "Varanasi (VNS)", "Goa (GOI)", "Pune (PNQ)"];
 
-    function closeAllLists() { document.querySelectorAll(".autocomplete-items").forEach(el => el.remove()); }
-    autocomplete(document.getElementById("origin"), airports);
-    autocomplete(document.getElementById("destination"), airports);
-    document.addEventListener("click", closeAllLists);
+let selectedFlightData = null;
 
-    const depDateInput = document.getElementById('depDate');
-    const retDateInput = document.getElementById('retDate');
-    
-    const today = new Date().toISOString().split('T')[0];
-    depDateInput.value = today;
-    depDateInput.min = today;
-    retDateInput.min = today;
-
-    depDateInput.onchange = function() {
-        retDateInput.min = this.value;
-        if(retDateInput.value && retDateInput.value < this.value) {
-            retDateInput.value = this.value;
-        }
-    };
-
-    document.getElementById('tripType').onchange = function() {
-        const isOneWay = this.value === 'oneway';
-        retDateInput.disabled = isOneWay;
-        retDateInput.value = isOneWay ? "" : (retDateInput.value || depDateInput.value);
-        document.getElementById('returnBox').classList.toggle('disabled-bg', isOneWay);
-    };
-
-    function generateSLT() {
-        const from = document.getElementById('origin').value;
-        const to = document.getElementById('destination').value;
-        const dep = depDateInput.value;
-        const ret = retDateInput.value;
-        const name = document.getElementById('travelerName').value;
-
-        if (!from || !to || !dep) return alert("Please specify your route and dates.");
-
-        const ticketId = Math.random().toString(36).substring(2,10).toUpperCase();
-        const svc = Math.floor(Math.random() * 377) + 100;
-        const total = 189.28 + 55 + 19 + svc;
-
-        // Fill Boarding Pass
-        document.getElementById('t-name').innerText = name;
-        document.getElementById('t-from').innerText = from.split(' (')[0];
-        document.getElementById('t-to').innerText = to.split(' (')[0];
-        document.getElementById('t-date').innerText = dep;
-        document.getElementById('t-fare').innerText = `₹${total.toFixed(0)}`;
-        document.getElementById('t-seat').innerText = '--';
-
-        let travelHtml = `
-            <tr><th class="py-3">Ticket ID</th><td class="py-3"><strong>#${ticketId}</strong></td></tr>
-            <tr><th class="py-3">Staff Name</th><td class="py-3">${name}</td></tr>
-            <tr><th class="py-3">Sector</th><td class="py-3">${from} to ${to}</td></tr>
-            <tr><th class="py-3">Departing</th><td class="py-3">${dep}</td></tr>`;
-        
-        if (ret) {
-            travelHtml += `<tr><th class="py-3">Returning</th><td class="py-3">${ret}</td></tr>`;
-        }
-
-        document.getElementById('travelDetailsBody').innerHTML = travelHtml;
-
-        document.getElementById('fareSummaryBody').innerHTML = `
-            <tr><td class="py-2 text-muted">Base SLT Fare</td><td class="text-end py-2">₹189</td></tr>
-            <tr><td class="py-2 text-muted">Airport Charges</td><td class="text-end py-2">₹55</td></tr>
-            <tr><td class="py-2 text-muted">GST</td><td class="text-end py-2">₹19</td></tr>
-            <tr><td class="py-2 text-muted">Service Fee</td><td class="text-end py-2">₹${svc}</td></tr>
-            <tr class="table-danger fw-bold fs-5 text-danger"><td class="py-3">Net Total</td><td class="text-end py-3">₹${total.toFixed(2)}</td></tr>`;
-
-        document.getElementById('bookingSummary').style.display = 'block';
-        window.scrollTo({ top: document.getElementById('bookingSummary').offsetTop - 50, behavior: 'smooth' });
-    }
-
-    // ============================================================
-    //  SEAT MAP LOGIC
-    // ============================================================
-
-    let selectedSeat = null;
-    let staffSeats = []; // which seats are available for staff
-
-    function getIATACode(fullName) {
-        const match = fullName.match(/\(([^)]+)\)/);
-        return match ? match[1] : fullName.substring(0, 3).toUpperCase();
-    }
-
-    function openSeatModal() {
-        const from = document.getElementById('origin').value;
-        const to = document.getElementById('destination').value;
-        const dep = depDateInput.value;
-
-        // Reset selection
-        selectedSeat = null;
-        document.getElementById('sm-selected-label').textContent = '— No seat chosen yet —';
-        document.getElementById('sm-seat-note').style.display = 'none';
-        document.getElementById('confirmSeatBtn').disabled = true;
-
-        // Update modal header
-        document.getElementById('sm-from').textContent = getIATACode(from);
-        document.getElementById('sm-to').textContent = getIATACode(to);
-        document.getElementById('sm-meta').textContent = `AI 865  ·  ${dep}  ·  Staff Class`;
-
-        // Decide how many staff seats: 2 or 3
-        const totalStaffSeats = Math.random() < 0.5 ? 2 : 3;
-        document.getElementById('sm-avail-count').textContent = totalStaffSeats;
-
-        // Build seat map
-        buildSeatMap(totalStaffSeats);
-
-        const modal = new bootstrap.Modal(document.getElementById('seatModal'));
-        modal.show();
-    }
-
-    function buildSeatMap(availableCount) {
-        staffSeats = [];
-
-        // ---------- BUSINESS CLASS (rows 1-3, all occupied) ----------
-        const bizContainer = document.getElementById('businessRows');
-        bizContainer.innerHTML = '';
-        for (let row = 1; row <= 3; row++) {
-            bizContainer.appendChild(buildRow(row, ['A','B','C','D','E','F'], [], true));
-        }
-
-        // ---------- ECONOMY CLASS (rows 10-18) ----------
-        // Randomly assign available staff seats across economy
-        const ecoRows = [10, 11, 12, 13, 14, 15, 16, 17, 18];
-        const cols = ['A','B','C','D','E','F'];
-        const allEcoSeats = [];
-        ecoRows.forEach(r => cols.forEach(c => allEcoSeats.push(`${r}${c}`)));
-
-        // Pick random staff available seats
-        const shuffled = allEcoSeats.sort(() => Math.random() - 0.5);
-        staffSeats = shuffled.slice(0, availableCount);
-
-        const ecoContainer = document.getElementById('economyRows');
-        ecoContainer.innerHTML = '';
-        ecoRows.forEach(row => {
-            ecoContainer.appendChild(buildRow(row, cols, staffSeats, false));
-        });
-    }
-
-    function buildRow(rowNum, cols, availableSeats, allOccupied) {
-        const rowEl = document.createElement('div');
-        rowEl.className = 'seat-row';
-
-        // Row number
-        const numEl = document.createElement('span');
-        numEl.className = 'seat-row-num';
-        numEl.textContent = rowNum;
-        rowEl.appendChild(numEl);
-
-        cols.forEach((col, idx) => {
-            // Aisle gap between C and D
-            if (idx === 3) {
-                const aisle = document.createElement('span');
-                aisle.className = 'seat-aisle';
-                rowEl.appendChild(aisle);
+// ============================================================
+//  AUTOCOMPLETE
+// ============================================================
+function autocomplete(inp, arr) {
+    inp.addEventListener("input", function() {
+        let val = this.value; closeAllLists();
+        if (!val || val.length < 2) return;
+        let a = document.createElement("DIV");
+        a.className = "autocomplete-items";
+        this.parentNode.appendChild(a);
+        arr.forEach(city => {
+            if (city.toUpperCase().includes(val.toUpperCase())) {
+                let b = document.createElement("DIV");
+                b.innerHTML = city;
+                b.onclick = () => { inp.value = city; closeAllLists(); onRouteChange(); };
+                a.appendChild(b);
             }
-
-            const seatId = `${rowNum}${col}`;
-            const btn = document.createElement('button');
-            btn.className = 'seat-btn';
-            btn.setAttribute('data-seat', seatId);
-
-            const isAvailable = !allOccupied && availableSeats.includes(seatId);
-
-            if (isAvailable) {
-                btn.classList.add('available');
-                btn.title = `Seat ${seatId} — Available for Staff`;
-                btn.onclick = () => selectSeat(seatId, btn);
-            } else {
-                btn.classList.add('occupied');
-                btn.disabled = true;
-                btn.title = `Seat ${seatId} — Occupied`;
-            }
-
-            rowEl.appendChild(btn);
         });
+    });
+}
+function closeAllLists() { document.querySelectorAll(".autocomplete-items").forEach(el => el.remove()); }
+autocomplete(document.getElementById("origin"), airports);
+autocomplete(document.getElementById("destination"), airports);
+document.addEventListener("click", closeAllLists);
 
-        return rowEl;
+// ============================================================
+//  DATES
+// ============================================================
+const depDateInput = document.getElementById('depDate');
+const retDateInput = document.getElementById('retDate');
+const today = new Date().toISOString().split('T')[0];
+depDateInput.value = today;
+depDateInput.min = today;
+retDateInput.min = today;
+depDateInput.onchange = function() {
+    retDateInput.min = this.value;
+    if (retDateInput.value && retDateInput.value < this.value) retDateInput.value = this.value;
+};
+document.getElementById('tripType').onchange = function() {
+    const isOneWay = this.value === 'oneway';
+    retDateInput.disabled = isOneWay;
+    retDateInput.value = isOneWay ? "" : (retDateInput.value || depDateInput.value);
+    document.getElementById('returnBox').classList.toggle('disabled-bg', isOneWay);
+};
+
+// ============================================================
+//  IATA HELPER
+// ============================================================
+function getIATA(fullName) {
+    const match = fullName.match(/\(([^)]+)\)/);
+    return match ? match[1] : fullName.substring(0, 3).toUpperCase();
+}
+
+// ============================================================
+//  FLIGHT SELECTOR LOGIC
+// ============================================================
+function onRouteChange() {
+    const from = document.getElementById('origin').value;
+    const to = document.getElementById('destination').value;
+    // Clear selected flight whenever route changes
+    selectedFlightData = null;
+    document.getElementById('selectedFlightBadge').style.display = 'none';
+
+    if (!from || !to || from.length < 4 || to.length < 4) {
+        document.getElementById('flightSelectorRow').style.display = 'none';
+        return;
     }
 
-    function selectSeat(seatId, btnEl) {
-        // Deselect previous
-        document.querySelectorAll('.seat-btn.selected').forEach(b => {
-            b.classList.remove('selected');
-            b.classList.add('available');
+    const fromCode = getIATA(from);
+    const toCode = getIATA(to);
+    const key = `${fromCode}-${toCode}`;
+    const flights = AI_FLIGHTS[key];
+
+    const row = document.getElementById('flightSelectorRow');
+    const wrap = document.getElementById('flightListWrap');
+    const noMsg = document.getElementById('noFlightsMsg');
+    const sectorLabel = document.getElementById('sectorLabel');
+
+    wrap.innerHTML = '';
+    sectorLabel.textContent = `${fromCode} → ${toCode}`;
+
+    if (!flights || flights.length === 0) {
+        noMsg.style.display = 'block';
+        wrap.style.display = 'none';
+    } else {
+        noMsg.style.display = 'none';
+        wrap.style.display = 'flex';
+        flights.forEach(f => {
+            const card = document.createElement('div');
+            card.className = 'flight-option-card';
+            card.innerHTML = `
+                <div>
+                    <div class="fn">${f.fn}</div>
+                    <div class="ft">${f.dep} → ${f.arr}</div>
+                    <div class="ft" style="color:#aaa; font-size:0.72rem;">${f.duration} · ${f.aircraft}</div>
+                </div>
+                <div>
+                    <span class="fstops ${f.stops === 'Non-stop' ? 'nonstop' : ''}">${f.stops}</span>
+                </div>
+                <i class="bi bi-check-circle-fill selected-check"></i>
+            `;
+            card.onclick = () => selectFlight(f, card);
+            wrap.appendChild(card);
         });
-
-        // Select this
-        btnEl.classList.remove('available');
-        btnEl.classList.add('selected');
-        selectedSeat = seatId;
-
-        document.getElementById('sm-selected-label').textContent = `Seat ${seatId}  ·  Economy  ·  Staff Allocation`;
-        document.getElementById('sm-seat-note').style.display = 'block';
-        document.getElementById('confirmSeatBtn').disabled = false;
     }
 
-    function confirmSeatAndBook() {
-        if (!selectedSeat) return;
+    row.style.display = 'block';
+}
 
-        // Update boarding pass seat
-        document.getElementById('t-seat').textContent = selectedSeat;
+function selectFlight(f, cardEl) {
+    document.querySelectorAll('.flight-option-card').forEach(c => c.classList.remove('active'));
+    cardEl.classList.add('active');
+    selectedFlightData = f;
+    const badge = document.getElementById('selectedFlightBadge');
+    document.getElementById('selectedFlightText').textContent =
+        `${f.fn}  ·  ${f.dep} → ${f.arr}  ·  ${f.duration}  ·  ${f.aircraft}`;
+    badge.style.display = 'flex';
+}
 
-        // Close modal
-        bootstrap.Modal.getInstance(document.getElementById('seatModal')).hide();
+function clearFlightSelection() {
+    selectedFlightData = null;
+    document.querySelectorAll('.flight-option-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('selectedFlightBadge').style.display = 'none';
+}
 
-        // Start booking process (original flow)
-        startBooking();
+// ============================================================
+//  GENERATE SLT
+// ============================================================
+function generateSLT() {
+    const from = document.getElementById('origin').value;
+    const to = document.getElementById('destination').value;
+    const dep = depDateInput.value;
+    const ret = retDateInput.value;
+    const name = document.getElementById('travelerName').value;
+
+    if (!from || !to || !dep) return alert("Please specify your route and dates.");
+    if (!selectedFlightData) return alert("Please select a flight from the options shown.");
+
+    const ticketId = Math.random().toString(36).substring(2, 10).toUpperCase();
+    const svc = Math.floor(Math.random() * 377) + 100;
+    const total = 189.28 + 55 + 19 + svc;
+    const f = selectedFlightData;
+
+    // Fill Boarding Pass
+    document.getElementById('t-name').innerText = name;
+    document.getElementById('t-from').innerText = from.split(' (')[0];
+    document.getElementById('t-to').innerText = to.split(' (')[0];
+    document.getElementById('t-date').innerText = dep;
+    document.getElementById('t-fare').innerText = `₹${total.toFixed(0)}`;
+    document.getElementById('t-seat').innerText = '--';
+    document.getElementById('t-flight').innerText = f.fn;
+    document.getElementById('t-dep-time').innerText = f.dep;
+    document.getElementById('t-arr-time').innerText = f.arr;
+
+    let travelHtml = `
+        <tr><th class="py-3">Ticket ID</th><td class="py-3"><strong>#${ticketId}</strong></td></tr>
+        <tr><th class="py-3">Staff Name</th><td class="py-3">${name}</td></tr>
+        <tr><th class="py-3">Sector</th><td class="py-3">${from} → ${to}</td></tr>
+        <tr><th class="py-3">Flight</th><td class="py-3"><strong>${f.fn}</strong> &nbsp; ${f.dep} – ${f.arr} &nbsp; (${f.duration})</td></tr>
+        <tr><th class="py-3">Aircraft</th><td class="py-3">${f.aircraft}</td></tr>
+        <tr><th class="py-3">Departing</th><td class="py-3">${dep}</td></tr>`;
+    if (ret) travelHtml += `<tr><th class="py-3">Returning</th><td class="py-3">${ret}</td></tr>`;
+
+    document.getElementById('travelDetailsBody').innerHTML = travelHtml;
+    document.getElementById('fareSummaryBody').innerHTML = `
+        <tr><td class="py-2 text-muted">Base SLT Fare</td><td class="text-end py-2">₹189</td></tr>
+        <tr><td class="py-2 text-muted">Airport Charges</td><td class="text-end py-2">₹55</td></tr>
+        <tr><td class="py-2 text-muted">GST</td><td class="text-end py-2">₹19</td></tr>
+        <tr><td class="py-2 text-muted">Service Fee</td><td class="text-end py-2">₹${svc}</td></tr>
+        <tr class="table-danger fw-bold fs-5 text-danger"><td class="py-3">Net Total</td><td class="text-end py-3">₹${total.toFixed(2)}</td></tr>`;
+
+    document.getElementById('bookingSummary').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('bookingSummary').offsetTop - 50, behavior: 'smooth' });
+}
+
+// ============================================================
+//  SEAT MAP LOGIC  — random 1, 2 or 3 staff seats
+// ============================================================
+let selectedSeat = null;
+let staffSeats = [];
+
+function openSeatModal() {
+    const from = document.getElementById('origin').value;
+    const to = document.getElementById('destination').value;
+    const dep = depDateInput.value;
+    const f = selectedFlightData;
+
+    selectedSeat = null;
+    document.getElementById('sm-selected-label').textContent = '— No seat chosen yet —';
+    document.getElementById('sm-seat-note').style.display = 'none';
+    document.getElementById('confirmSeatBtn').disabled = true;
+    document.getElementById('sm-from').textContent = getIATA(from);
+    document.getElementById('sm-to').textContent = getIATA(to);
+    document.getElementById('sm-meta').textContent =
+        `${f ? f.fn : 'AI ???'}  ·  ${dep}  ·  ${f ? f.dep + ' – ' + f.arr : ''}  ·  Staff Class`;
+
+    // Random 1–3 staff seats
+    const totalStaffSeats = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
+    document.getElementById('sm-avail-count').textContent = totalStaffSeats;
+
+    buildSeatMap(totalStaffSeats);
+    new bootstrap.Modal(document.getElementById('seatModal')).show();
+}
+
+function buildSeatMap(availableCount) {
+    staffSeats = [];
+    const bizContainer = document.getElementById('businessRows');
+    bizContainer.innerHTML = '';
+    for (let row = 1; row <= 3; row++) {
+        bizContainer.appendChild(buildRow(row, ['A','B','C','D','E','F'], [], true));
     }
 
-    function startBooking() {
-        document.getElementById('loaderOverlay').style.display = 'flex';
-        setTimeout(() => {
-            document.getElementById('spinner').style.display = 'none';
-            document.getElementById('successContent').style.display = 'block';
-            document.querySelector('.success-icon').style.display = 'block';
-        }, 5000);
-    }
+    const ecoRows = [10,11,12,13,14,15,16,17,18];
+    const cols = ['A','B','C','D','E','F'];
+    const allEcoSeats = [];
+    ecoRows.forEach(r => cols.forEach(c => allEcoSeats.push(`${r}${c}`)));
+    const shuffled = allEcoSeats.sort(() => Math.random() - 0.5);
+    staffSeats = shuffled.slice(0, availableCount);
+
+    const ecoContainer = document.getElementById('economyRows');
+    ecoContainer.innerHTML = '';
+    ecoRows.forEach(row => ecoContainer.appendChild(buildRow(row, cols, staffSeats, false)));
+}
+
+function buildRow(rowNum, cols, availableSeats, allOccupied) {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'seat-row';
+    const numEl = document.createElement('span');
+    numEl.className = 'seat-row-num';
+    numEl.textContent = rowNum;
+    rowEl.appendChild(numEl);
+
+    cols.forEach((col, idx) => {
+        if (idx === 3) {
+            const aisle = document.createElement('span');
+            aisle.className = 'seat-aisle';
+            rowEl.appendChild(aisle);
+        }
+        const seatId = `${rowNum}${col}`;
+        const btn = document.createElement('button');
+        btn.className = 'seat-btn';
+        btn.setAttribute('data-seat', seatId);
+        const isAvailable = !allOccupied && availableSeats.includes(seatId);
+        if (isAvailable) {
+            btn.classList.add('available');
+            btn.title = `Seat ${seatId} — Available for Staff`;
+            btn.onclick = () => selectSeat(seatId, btn);
+        } else {
+            btn.classList.add('occupied');
+            btn.disabled = true;
+            btn.title = `Seat ${seatId} — Occupied`;
+        }
+        rowEl.appendChild(btn);
+    });
+    return rowEl;
+}
+
+function selectSeat(seatId, btnEl) {
+    document.querySelectorAll('.seat-btn.selected').forEach(b => {
+        b.classList.remove('selected');
+        b.classList.add('available');
+    });
+    btnEl.classList.remove('available');
+    btnEl.classList.add('selected');
+    selectedSeat = seatId;
+    document.getElementById('sm-selected-label').textContent = `Seat ${seatId}  ·  Economy  ·  Staff Allocation`;
+    document.getElementById('sm-seat-note').style.display = 'block';
+    document.getElementById('confirmSeatBtn').disabled = false;
+}
+
+function confirmSeatAndBook() {
+    if (!selectedSeat) return;
+    document.getElementById('t-seat').textContent = selectedSeat;
+    bootstrap.Modal.getInstance(document.getElementById('seatModal')).hide();
+    startBooking();
+}
+
+function startBooking() {
+    document.getElementById('loaderOverlay').style.display = 'flex';
+    setTimeout(() => {
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('successContent').style.display = 'block';
+        document.querySelector('.success-icon').style.display = 'block';
+    }, 5000);
+}
 </script>
 </body>
 </html>
