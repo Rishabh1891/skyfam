@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        :root { --primary-red: #d91e2e; --ai-red: #a52a52; --border-color: #e0e0e0; }
+        :root { --primary-red: #c41e3a; --ai-red: #8a1538; --border-color: #e0e0e0; --gold: #d4af37; --gold-light: #f3e3ab; --aubergine-dark: #2b0f28; --aubergine: #4a1942; --aubergine-light: #6b2c5e; }
         body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; background-color: #fff; }
         .logo img { height: 35px; }
         .price-text { font-size: 4rem; font-weight: 900; color: var(--primary-red); line-height: 1; letter-spacing: -2px; }
@@ -69,12 +69,77 @@
         }
 
         #loaderOverlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 35%, #fff 0%, #fff 55%, #fff5f6 100%);
             display: none; z-index: 9999; flex-direction: column; align-items: center; justify-content: center;
+            overflow: hidden;
         }
-        .success-icon { font-size: 100px; color: #198754; display: none; animation: bounceIn 0.6s cubic-bezier(0.68,-0.55,0.265,1.55); }
+        .success-glow {
+            position: absolute; width: 260px; height: 260px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(212,175,55,0.35) 0%, rgba(196,30,58,0.12) 55%, transparent 75%);
+            display: none; animation: glowPulse 2.4s ease-in-out infinite;
+        }
+        @keyframes glowPulse { 0%,100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.15); opacity: 0.6; } }
+
+        .success-icon { font-size: 100px; color: #198754; display: none; animation: bounceIn 0.6s cubic-bezier(0.68,-0.55,0.265,1.55); position: relative; z-index: 2; }
         .success-icon img { width: 100px; height: 100px; object-fit: contain; }
         @keyframes bounceIn { 0%{transform:scale(0)} 100%{transform:scale(1)} }
+
+        .confetti-piece {
+            position: absolute; top: -20px; width: 8px; height: 14px; opacity: 0.9;
+            animation: confettiFall 3.2s linear infinite; z-index: 1;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(540deg); opacity: 0.4; }
+        }
+        .confetti-piece:nth-child(1) { left: 4%; background: var(--primary-red); animation-delay: 0s; }
+        .confetti-piece:nth-child(2) { left: 12%; background: var(--gold); animation-delay: .3s; }
+        .confetti-piece:nth-child(3) { left: 20%; background: var(--aubergine); animation-delay: .6s; }
+        .confetti-piece:nth-child(4) { left: 28%; background: var(--gold-light); animation-delay: .1s; }
+        .confetti-piece:nth-child(5) { left: 36%; background: var(--primary-red); animation-delay: .8s; }
+        .confetti-piece:nth-child(6) { left: 44%; background: var(--gold); animation-delay: .2s; }
+        .confetti-piece:nth-child(7) { left: 52%; background: var(--aubergine); animation-delay: .5s; }
+        .confetti-piece:nth-child(8) { left: 60%; background: var(--gold-light); animation-delay: .9s; }
+        .confetti-piece:nth-child(9) { left: 68%; background: var(--primary-red); animation-delay: .4s; }
+        .confetti-piece:nth-child(10) { left: 76%; background: var(--gold); animation-delay: .7s; }
+        .confetti-piece:nth-child(11) { left: 84%; background: var(--aubergine); animation-delay: .15s; }
+        .confetti-piece:nth-child(12) { left: 92%; background: var(--gold-light); animation-delay: .55s; }
+        .confetti-piece:nth-child(13) { left: 8%; background: var(--gold); animation-delay: 1.1s; }
+        .confetti-piece:nth-child(14) { left: 16%; background: var(--aubergine); animation-delay: 1.4s; }
+        .confetti-piece:nth-child(15) { left: 24%; background: var(--primary-red); animation-delay: 1.0s; }
+        .confetti-piece:nth-child(16) { left: 32%; background: var(--gold-light); animation-delay: 1.6s; }
+        .confetti-piece:nth-child(17) { left: 40%; background: var(--gold); animation-delay: 1.2s; }
+        .confetti-piece:nth-child(18) { left: 48%; background: var(--aubergine); animation-delay: 1.7s; }
+        .confetti-piece:nth-child(19) { left: 56%; background: var(--primary-red); animation-delay: 1.3s; }
+        .confetti-piece:nth-child(20) { left: 64%; background: var(--gold-light); animation-delay: 1.8s; }
+        .confetti-piece:nth-child(21) { left: 72%; background: var(--gold); animation-delay: 1.5s; }
+        .confetti-piece:nth-child(22) { left: 80%; background: var(--aubergine); animation-delay: 2.0s; }
+        .confetti-piece:nth-child(23) { left: 88%; background: var(--primary-red); animation-delay: 1.9s; }
+        .confetti-piece:nth-child(24) { left: 96%; background: var(--gold); animation-delay: 2.1s; }
+
+        .success-pass-summary {
+            position: relative; z-index: 2; width: 100%; max-width: 380px; margin: 22px auto 0;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--aubergine-dark) 48%, var(--aubergine) 100%);
+            color: #fff; border-radius: 14px; padding: 18px 22px; text-align: left;
+            box-shadow: 0 18px 40px rgba(10,10,20,0.18), 0 0 0 1px rgba(212,175,55,0.3);
+        }
+        .success-pass-summary .sp-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.55); }
+        .success-pass-summary .sp-value { font-size: 1rem; font-weight: 700; }
+        .success-pass-summary hr { border-color: rgba(255,255,255,0.15); margin: 10px 0; }
+        .success-pass-summary .sp-pnr { color: var(--gold-light); font-weight: 800; letter-spacing: 1px; }
+
+        .success-actions { position: relative; z-index: 2; }
+        .btn-download-pass {
+            background: linear-gradient(135deg, var(--gold), #b8912f); color: #1a1200; border: none;
+            font-weight: 700; border-radius: 30px; padding: 10px 26px; transition: 0.2s;
+        }
+        .btn-download-pass:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(212,175,55,0.4); color: #1a1200; }
+        .btn-book-another {
+            background: linear-gradient(135deg, var(--primary-red), var(--aubergine)); color: #fff; border: none;
+            font-weight: 700; border-radius: 30px; padding: 10px 26px; transition: 0.2s;
+        }
+        .btn-book-another:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(196,30,58,0.35); color: #fff; }
 
         .offer-card { display: flex; background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; height: 100%; transition: 0.3s; }
         .offer-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
@@ -87,12 +152,79 @@
         @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         @media (max-width: 768px) { .input-box { border-right: none; border-bottom: 1px solid #dee2e6; } }
 
-        .ticket { width: 100%; background: white; display: flex; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; border: 1px solid #eee; overflow: hidden; border-radius: 12px; }
-        .header-red-ticket { position: absolute; top: 0; left: 0; right: 0; height: 40px; background-color: var(--ai-red); display: flex; align-items: center; padding: 0 15px; color: white; }
-        .ticket-main { flex: 3; padding: 55px 25px 20px; border-right: 2px dashed var(--border-color); }
-        .ticket-stub { flex: 1.2; padding: 55px 20px 20px; background-color: #fafafa; position: relative; }
-        .t-label { color: #777; font-size: 10px; text-transform: uppercase; margin-bottom: 2px; }
-        .t-value { font-size: 18px; font-weight: 700; color: #000; }
+        .ticket {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--aubergine-dark) 48%, var(--aubergine) 100%);
+            box-shadow: 0 25px 55px rgba(10,25,48,0.35), 0 0 0 1px rgba(212,175,55,0.28);
+            animation: passReveal 0.7s cubic-bezier(.2,.8,.2,1);
+        }
+        @keyframes passReveal { from { opacity:0; transform: translateY(26px) scale(.97); } to { opacity:1; transform: translateY(0) scale(1); } }
+        .ticket::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; z-index: 2;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+            background-size: 200% 100%;
+            animation: passShimmer 3.2s linear infinite;
+        }
+        @keyframes passShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        .ticket-notch { position: absolute; width: 20px; height: 20px; background: #ffffff; border-radius: 50%; left: 70%; transform: translateX(-50%); z-index: 3; }
+        .ticket-notch.top { top: -10px; }
+        .ticket-notch.bottom { bottom: -10px; }
+
+        .header-red-ticket {
+            position: relative; width: 100%; height: auto;
+            background: rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(212,175,55,0.3);
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            padding: 14px 24px; color: #fff;
+        }
+        .pass-brand { font-weight: 800; letter-spacing: 1px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .pass-brand i { color: var(--gold); }
+        .pass-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold-light); font-weight: 700; }
+        .pass-fareclass-badge {
+            background: linear-gradient(135deg, var(--gold), #b8912f);
+            color: #1a1200; font-size: 0.63rem; font-weight: 800; text-transform: uppercase;
+            padding: 4px 12px; border-radius: 20px; letter-spacing: 0.6px; white-space: nowrap;
+        }
+
+        .ticket-main { flex: 3; min-width: 260px; padding: 26px 26px 24px; border-right: 2px dashed rgba(255,255,255,0.2); position: relative; }
+        .ticket-stub { flex: 1.3; min-width: 170px; padding: 26px 22px 24px; background: rgba(0,0,0,0.2); position: relative; }
+
+        .t-label { color: rgba(255,255,255,0.55); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+        .t-value { font-size: 18px; font-weight: 700; color: #fff; }
+
+        .pass-route { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .pass-city { font-size: 1.35rem; letter-spacing: 0.5px; }
+        .pass-route-line { flex: 1; display: flex; align-items: center; gap: 4px; color: var(--gold); }
+        .pass-route-line .line { flex: 1; height: 1px; background: rgba(255,255,255,0.25); }
+        .pass-route-line .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+        .pass-route-line i { font-size: 0.95rem; }
+        .pass-flight-no { color: var(--gold-light); }
+
+        .pass-divider { height: 1px; background: rgba(255,255,255,0.12); margin: 18px 0 2px; }
+
+        .pass-fare { color: #6fe3a4; }
+
+        .pass-gate-box {
+            background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.05));
+            border: 1px solid rgba(212,175,55,0.45);
+            border-radius: 10px; padding: 10px 14px;
+        }
+        .pass-gate-value, .pass-boarding-value { font-size: 1.15rem; font-weight: 900; color: var(--gold-light); letter-spacing: 0.5px; }
+        .pass-gate-status { font-size: 0.62rem; color: rgba(255,255,255,0.55); margin-top: 8px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .pass-gate-status .mini-pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: blink 1.2s infinite; flex-shrink: 0; }
+
+        .pass-barcode {
+            height: 38px; border-radius: 3px; opacity: 0.85; margin-top: 16px;
+            background: repeating-linear-gradient(90deg, #fff 0 2px, transparent 2px 4px, #fff 4px 5px, transparent 5px 9px, #fff 9px 12px, transparent 12px 14px, #fff 14px 17px, transparent 17px 19px);
+        }
+        .pass-pnr { font-size: 0.6rem; letter-spacing: 2px; color: rgba(255,255,255,0.5); text-align: center; margin-top: 6px; text-transform: uppercase; }
 
         .offcanvas-header { background-color: var(--primary-red); color: white; }
         .nav-link-custom { padding: 12px 20px; border-bottom: 1px solid #eee; color: #333; text-decoration: none; display: block; font-weight: 500; transition: 0.2s; }
@@ -100,11 +232,11 @@
 
         /* ===== SEAT MODAL ===== */
         #seatModal .modal-content { border-radius: 16px; overflow: hidden; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-        .seat-availability-header { background: linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); color: white; padding: 20px 24px; border-bottom: 3px solid var(--primary-red); }
+        .seat-availability-header { background: linear-gradient(135deg, var(--primary-red) 0%, var(--aubergine-dark) 55%, var(--aubergine) 100%); color: white; padding: 20px 24px; border-bottom: 3px solid var(--gold); }
         .flight-route-display { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 6px; }
         .route-city { font-size: 1.6rem; font-weight: 900; letter-spacing: -1px; }
         .route-line { flex: 1; height: 1px; background: rgba(255,255,255,0.3); position: relative; max-width: 80px; }
-        .route-line::after { content:'✈'; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#0f3460; padding:0 6px; font-size:14px; }
+        .route-line::after { content:'✈'; position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); background: var(--aubergine); padding:0 6px; font-size:14px; }
         .flight-meta { font-size: 0.75rem; opacity: 0.7; text-align: center; }
 
         .seat-map-container { padding: 20px 24px; }
@@ -148,12 +280,36 @@
 <div id="loaderOverlay">
     <div id="spinner" class="spinner-border text-danger" style="width:5rem;height:5rem;" role="status"></div>
     <div id="successContent" class="text-center" style="display:none;">
+        <div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div>
+        <div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div>
+        <div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div>
+        <div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div>
+        <div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div>
+        <div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div><div class="confetti-piece"></div>
+
+        <div class="success-glow" style="display:block;"></div>
         <div class="success-icon">
             <img src="https://i.ibb.co/TD1vMNKy/unnamed-removebg-preview.png" alt="Booking Successful">
         </div>
-        <h2 class="display-5 mt-3 text-success fw-bold">Booking Successful</h2>
-        <p class="lead text-muted">You will recieve an email sortly.</p>
-        <button class="btn btn-danger btn-lg px-5 mt-3 rounded-pill" onclick="location.reload()">Book Another</button>
+        <h2 class="display-5 mt-3 text-success fw-bold" style="position:relative;z-index:2;">Booking Successful</h2>
+        <p class="lead text-muted" style="position:relative;z-index:2;">Your seat is locked in. You will receive an email shortly.</p>
+
+        <div class="success-pass-summary">
+            <div class="d-flex justify-content-between align-items-center">
+                <div><div class="sp-label">Passenger</div><div class="sp-value" id="successName">--</div></div>
+                <div class="text-end"><div class="sp-label">PNR</div><div class="sp-value sp-pnr" id="successPnr">--</div></div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center">
+                <div><div class="sp-label">Route</div><div class="sp-value" id="successRoute">--</div></div>
+                <div class="text-end"><div class="sp-label">Flight · Date</div><div class="sp-value" id="successFlight">--</div></div>
+            </div>
+        </div>
+
+        <div class="success-actions d-flex gap-3 justify-content-center flex-wrap mt-4">
+            <button class="btn btn-download-pass" onclick="window.print()"><i class="bi bi-download me-2"></i>Download Boarding Pass</button>
+            <button class="btn btn-book-another" onclick="location.reload()">Book Another</button>
+        </div>
     </div>
 </div>
 
@@ -184,11 +340,11 @@
             <span style="width:20px;"></span>
             <span style="width:36px;text-align:center;">A</span>
             <span style="width:36px;text-align:center;">B</span>
-            <span style="width:36px;text-align:center;">C</span>
-            <span style="width:20px;"></span>
-            <span style="width:36px;text-align:center;">D</span>
-            <span style="width:36px;text-align:center;">E</span>
-            <span style="width:36px;text-align:center;">F</span>
+            <span id="labelAisleSpace" style="width:20px;"></span>
+            <span id="labelColC" style="width:36px;text-align:center;">C</span>
+            <span id="labelColD" style="width:36px;text-align:center;">D</span>
+            <span id="labelColE" style="width:36px;text-align:center;">E</span>
+            <span id="labelColF" style="width:36px;text-align:center;">F</span>
           </div>
         </div>
         <div class="seat-legend">
@@ -278,7 +434,7 @@
                 </div>
             </div>
 
-            <!-- FLIGHT SELECTOR ROW (appears below when sector is chosen) -->
+            <!-- FLIGHT SELECTOR ROW -->
             <div id="flightSelectorRow" class="row g-0 border-top">
                 <div class="col-12">
                     <div class="d-flex align-items-center px-3 pt-3 pb-1 gap-2 flex-wrap">
@@ -323,28 +479,46 @@
     <div id="bookingSummary" class="mb-5">
         <div class="row g-4">
             <div class="col-12 mb-3">
-                <h5 class="fw-bold mb-3">Digital Boarding Pass Preview</h5>
+                <h5 class="fw-bold mb-3">Digital Boarding Pass</h5>
                 <div class="ticket">
-                    <div class="header-red-ticket"><span>Air India Staff Ticket</span></div>
+                    <span class="ticket-notch top"></span>
+                    <span class="ticket-notch bottom"></span>
+                    <div class="header-red-ticket">
+                        <div class="pass-brand"><i class="bi bi-airplane-engines-fill"></i>AIR INDIA</div>
+                        <div class="pass-title">Boarding Pass</div>
+                        <div class="pass-fareclass-badge">Staff Fare</div>
+                    </div>
                     <div class="ticket-main">
                         <div class="row">
                             <div class="col-6"><div class="t-label">Passenger</div><div class="t-value" id="t-name">--</div></div>
-                            <div class="col-6 text-end"><div class="t-label">Flight</div><div class="t-value text-danger" id="t-flight">AI 865</div></div>
+                            <div class="col-6 text-end"><div class="t-label">Flight</div><div class="t-value pass-flight-no" id="t-flight">AI 865</div></div>
                         </div>
+
+                        <div class="pass-route mt-4">
+                            <div><div class="t-label">From</div><div class="t-value pass-city" id="t-from">--</div></div>
+                            <div class="pass-route-line"><span class="dot"></span><span class="line"></span><i class="bi bi-airplane-fill"></i><span class="line"></span><span class="dot"></span></div>
+                            <div class="text-end"><div class="t-label">To</div><div class="t-value pass-city" id="t-to">--</div></div>
+                        </div>
+
                         <div class="row mt-4">
-                            <div class="col-5"><div class="t-label">From</div><div class="t-value" id="t-from">--</div></div>
-                            <div class="col-2 text-center fs-3 text-danger"><i class="bi bi-airplane-fill"></i></div>
-                            <div class="col-5 text-end"><div class="t-label">To</div><div class="t-value" id="t-to">--</div></div>
-                        </div>
-                        <div class="row mt-3">
                             <div class="col-6"><div class="t-label">Departure</div><div class="t-value" id="t-dep-time" style="font-size:1rem;">--</div></div>
                             <div class="col-6 text-end"><div class="t-label">Arrival</div><div class="t-value" id="t-arr-time" style="font-size:1rem;">--</div></div>
                         </div>
+
+                        <div class="pass-divider"></div>
                     </div>
                     <div class="ticket-stub">
-                        <div class="t-label">Fare</div><div class="h4 fw-bold text-success" id="t-fare">₹0</div>
+                        <div class="t-label">Fare</div><div class="h4 fw-bold pass-fare" id="t-fare">₹0</div>
                         <div class="t-label mt-3">Date</div><div class="t-value" id="t-date">--</div>
-                        <div class="t-label mt-3">Seat</div><div class="t-value text-danger" id="t-seat">--</div>
+                        <div class="pass-gate-box mt-3">
+                            <div class="d-flex justify-content-between align-items-center gap-2">
+                                <div><div class="t-label">Gate</div><div class="pass-gate-value" id="t-gate">--</div></div>
+                                <div class="text-end"><div class="t-label">Boarding</div><div class="pass-boarding-value" id="t-boarding">--</div></div>
+                            </div>
+                            <div class="pass-gate-status"><span class="mini-pulse-dot"></span>Gate closes 20 min before departure</div>
+                        </div>
+                        <div class="pass-barcode"></div>
+                        <div class="pass-pnr">Staff Leisure Travel</div>
                     </div>
                 </div>
             </div>
@@ -400,10 +574,8 @@
 <script>
 // ============================================================
 //  AIR INDIA FLIGHT SCHEDULE DATA (per sector, both directions)
-//  Sources: Air India published timetables for domestic routes
 // ============================================================
 const AI_FLIGHTS = {
-    // Key format: "ORIG-DEST" (3-letter IATA both ways)
     "DEL-BOM": [
         { fn: "AI 860", dep: "02:15", arr: "04:35", duration: "2h 20m", stops: "Non-stop", aircraft: "A321" },
         { fn: "AI 864", dep: "07:00", arr: "09:15", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" },
@@ -461,9 +633,7 @@ const AI_FLIGHTS = {
         { fn: "AI 552", dep: "14:30", arr: "16:50", duration: "2h 20m", stops: "Non-stop", aircraft: "A320" },
         { fn: "AI 554", dep: "21:00", arr: "23:20", duration: "2h 20m", stops: "Non-stop", aircraft: "A321" }
     ],
-    "DEL-LKO": [
-        { fn: "AI 811", dep: "18:50", arr: "20:00", duration: "1h 10m", stops: "Non-stop", aircraft: "A320neo" }
-    ],
+    "DEL-LKO": [ { fn: "AI 811", dep: "18:50", arr: "20:00", duration: "1h 10m", stops: "Non-stop", aircraft: "A320neo" } ],
     "LKO-DEL": [
         { fn: "AI 400", dep: "06:00", arr: "07:10", duration: "1h 10m", stops: "Non-stop", aircraft: "ATR 72" },
         { fn: "AI 402", dep: "12:30", arr: "13:40", duration: "1h 10m", stops: "Non-stop", aircraft: "ATR 72" },
@@ -471,7 +641,7 @@ const AI_FLIGHTS = {
     ],
     "DEL-VNS": [
         { fn: "AIC1765", dep: "08:00", arr: "09:20", duration: "1h 20m", stops: "Non-stop", aircraft: "A320" },
-        { fn: "AIC2623", dep: "17:30", arr: "19:30", duration: "1h 30m", stops: "Non-stop", aircraft: "A320" }
+        { fn: "AIC2623", dep: "13:35", arr: "15:05", duration: "1h 30m", stops: "Non-stop", aircraft: "A320" }
     ],
     "VNS-DEL": [
         { fn: "AIC1850", dep: "10:00", arr: "11:30", duration: "1h 30m", stops: "Non-stop", aircraft: "A320" },
@@ -536,10 +706,45 @@ const AI_FLIGHTS = {
     "CCU-BOM": [
         { fn: "AI 770", dep: "10:30", arr: "13:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A320" },
         { fn: "AI 772", dep: "18:30", arr: "21:15", duration: "2h 45m", stops: "Non-stop", aircraft: "A321" }
-    ]
+    ],
+    "BOM-MAA": [
+        { fn: "AI 671", dep: "08:15", arr: "10:10", duration: "1h 55m", stops: "Non-stop", aircraft: "A320neo" },
+        { fn: "AI 673", dep: "17:45", arr: "19:40", duration: "1h 55m", stops: "Non-stop", aircraft: "A321" }
+    ],
+    "MAA-BOM": [
+        { fn: "AI 672", dep: "11:00", arr: "13:00", duration: "2h 00m", stops: "Non-stop", aircraft: "A320neo" },
+        { fn: "AI 674", dep: "20:30", arr: "22:30", duration: "2h 00m", stops: "Non-stop", aircraft: "A321" }
+    ],
+    "BOM-PNQ": [ { fn: "AI 841", dep: "06:10", arr: "07:00", duration: "0h 50m", stops: "Non-stop", aircraft: "A320" } ],
+    "PNQ-BOM": [ { fn: "AI 842", dep: "07:45", arr: "08:35", duration: "0h 50m", stops: "Non-stop", aircraft: "A320" } ],
+    "BLR-MAA": [
+        { fn: "AI 511", dep: "09:55", arr: "10:55", duration: "1h 00m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 513", dep: "18:20", arr: "19:25", duration: "1h 05m", stops: "Non-stop", aircraft: "A320neo" }
+    ],
+    "MAA-BLR": [
+        { fn: "AI 512", dep: "11:40", arr: "12:45", duration: "1h 05m", stops: "Non-stop", aircraft: "A320" },
+        { fn: "AI 514", dep: "20:10", arr: "21:15", duration: "1h 05m", stops: "Non-stop", aircraft: "A320neo" }
+    ],
+    "CCU-HYD": [ { fn: "AI 783", dep: "09:15", arr: "11:30", duration: "2h 15m", stops: "Non-stop", aircraft: "A320" } ],
+    "HYD-CCU": [ { fn: "AI 784", dep: "12:15", arr: "14:35", duration: "2h 20m", stops: "Non-stop", aircraft: "A320" } ],
+    "LKO-BOM": [ { fn: "AI 621", dep: "08:45", arr: "11:00", duration: "2h 15m", stops: "Non-stop", aircraft: "A320neo" } ],
+    "BOM-LKO": [ { fn: "AI 622", dep: "12:00", arr: "14:20", duration: "2h 20m", stops: "Non-stop", aircraft: "A320neo" } ]
 };
 
-const airports = ["New Delhi (DEL)", "Mumbai (BOM)", "Chandigarh (IXC)", "Bangalore (BLR)", "Chennai (MAA)", "Kolkata (CCU)", "Hyderabad (HYD)", "Lucknow (LKO)", "Varanasi (VNS)", "Goa (GOI)", "Pune (PNQ)"];
+// Major Air India Locations with IATA & ICAO codes
+const airports = [
+    "New Delhi (DEL / VIDP)", 
+    "Mumbai (BOM / VABB)", 
+    "Chandigarh (IXC / VICG)", 
+    "Bangalore (BLR / VOBL)", 
+    "Chennai (MAA / VOMM)", 
+    "Kolkata (CCU / VECC)", 
+    "Hyderabad (HYD / VOHY)", 
+    "Lucknow (LKO / VILK)", 
+    "Varanasi (VNS / VIBN)", 
+    "Goa (GOI / VOGO)", 
+    "Pune (PNQ / VAPO)"
+];
 
 let selectedFlightData = null;
 
@@ -592,7 +797,7 @@ document.getElementById('tripType').onchange = function() {
 //  IATA HELPER
 // ============================================================
 function getIATA(fullName) {
-    const match = fullName.match(/\(([^)]+)\)/);
+    const match = fullName.match(/\(([^ /)]+)/);
     return match ? match[1] : fullName.substring(0, 3).toUpperCase();
 }
 
@@ -602,7 +807,6 @@ function getIATA(fullName) {
 function onRouteChange() {
     const from = document.getElementById('origin').value;
     const to = document.getElementById('destination').value;
-    // Clear selected flight whenever route changes
     selectedFlightData = null;
     document.getElementById('selectedFlightBadge').style.display = 'none';
 
@@ -669,6 +873,26 @@ function clearFlightSelection() {
 }
 
 // ============================================================
+//  PRE-FLIGHT INFO HELPERS (gate + boarding time)
+// ============================================================
+function subtractMinutes(timeStr, mins) {
+    const clean = timeStr.replace('+1', '');
+    let [h, m] = clean.split(':').map(Number);
+    let total = ((h * 60 + m - mins) % (24 * 60) + 24 * 60) % (24 * 60);
+    const hh = Math.floor(total / 60);
+    const mm = total % 60;
+    return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
+}
+function gateForFlight(fn) {
+    let seed = 0;
+    for (let i = 0; i < fn.length; i++) seed += fn.charCodeAt(i);
+    const terminal = (seed % 2 === 0) ? 'T2' : 'T3';
+    const letter = ['A', 'B', 'C', 'D'][seed % 4];
+    const number = (seed % 24) + 1;
+    return `${terminal} · ${letter}${number}`;
+}
+
+// ============================================================
 //  GENERATE SLT
 // ============================================================
 function generateSLT() {
@@ -686,19 +910,19 @@ function generateSLT() {
     const total = 189.28 + 55 + 19 + svc;
     const f = selectedFlightData;
 
-    // Fill Boarding Pass
     document.getElementById('t-name').innerText = name;
     document.getElementById('t-from').innerText = from.split(' (')[0];
     document.getElementById('t-to').innerText = to.split(' (')[0];
     document.getElementById('t-date').innerText = dep;
     document.getElementById('t-fare').innerText = `₹${total.toFixed(0)}`;
-    document.getElementById('t-seat').innerText = '--';
+    document.getElementById('t-gate').innerText = gateForFlight(f.fn);
+    document.getElementById('t-boarding').innerText = subtractMinutes(f.dep, 40);
     document.getElementById('t-flight').innerText = f.fn;
     document.getElementById('t-dep-time').innerText = f.dep;
     document.getElementById('t-arr-time').innerText = f.arr;
 
     let travelHtml = `
-        <tr><th class="py-3">Ticket ID</th><td class="py-3"><strong>#${ticketId}</strong></td></tr>
+        <tr><th class="py-3">Ticket ID</th><td class="py-3"><strong id="ticketIdText">#${ticketId}</strong></td></tr>
         <tr><th class="py-3">Staff Name</th><td class="py-3">${name}</td></tr>
         <tr><th class="py-3">Sector</th><td class="py-3">${from} → ${to}</td></tr>
         <tr><th class="py-3">Flight</th><td class="py-3"><strong>${f.fn}</strong> &nbsp; ${f.dep} – ${f.arr} &nbsp; (${f.duration})</td></tr>
@@ -719,15 +943,15 @@ function generateSLT() {
 }
 
 // ============================================================
-//  SEAT MAP LOGIC  — random 1, 2 or 3 staff seats
+//  SEAT MAP LOGIC
 // ============================================================
 let selectedSeat = null;
-let staffSeats = [];
 
 function openSeatModal() {
     const from = document.getElementById('origin').value;
     const to = document.getElementById('destination').value;
     const dep = depDateInput.value;
+    const name = document.getElementById('travelerName').value;
     const f = selectedFlightData;
 
     selectedSeat = null;
@@ -736,71 +960,125 @@ function openSeatModal() {
     document.getElementById('confirmSeatBtn').disabled = true;
     document.getElementById('sm-from').textContent = getIATA(from);
     document.getElementById('sm-to').textContent = getIATA(to);
+    
+    let travelClass = "Economy";
+    if (name === "Rishabh Tripathi") {
+        travelClass = "Business";
+    }
+    
     document.getElementById('sm-meta').textContent =
-        `${f ? f.fn : 'AI ???'}  ·  ${dep}  ·  ${f ? f.dep + ' – ' + f.arr : ''}  ·  Staff Class`;
+        `${f ? f.fn : 'AI ???'}  ·  ${dep}  ·  ${f ? f.dep + ' – ' + f.arr : ''}  ·  ${travelClass} Class`;
 
-    // Random 1–3 staff seats
-    const totalStaffSeats = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
+    // Dynamic staff headcount labels
+    const totalStaffSeats = Math.floor(Math.random() * 3) + 1; 
     document.getElementById('sm-avail-count').textContent = totalStaffSeats;
 
-    buildSeatMap(totalStaffSeats);
+    buildSeatMap(totalStaffSeats, name);
     new bootstrap.Modal(document.getElementById('seatModal')).show();
 }
 
-function buildSeatMap(availableCount) {
-    staffSeats = [];
+function buildSeatMap(availableCount, travelerName) {
+    const isRishabh = (travelerName === "Rishabh Tripathi");
+    
+    // 1. Build Business Class section (3 rows in a 2:2 setup: A, B, [Aisle], C, D)
     const bizContainer = document.getElementById('businessRows');
     bizContainer.innerHTML = '';
-    for (let row = 1; row <= 3; row++) {
-        bizContainer.appendChild(buildRow(row, ['A','B','C','D','E','F'], [], true));
-    }
+    
+    // Define all available potential Business seats
+    const bizRows = [1, 2, 3];
+    const bizCols = ['A', 'B', 'C', 'D'];
+    const allBizSeats = [];
+    bizRows.forEach(r => bizCols.forEach(c => allBizSeats.push(`${r}${c}`)));
+    
+    // Choose exactly 1 or 2 random available Business class seats
+    const totalBizAvailableCount = Math.floor(Math.random() * 2) + 1; // 1 or 2
+    const shuffledBiz = allBizSeats.sort(() => Math.random() - 0.5);
+    const availableBizSeats = shuffledBiz.slice(0, totalBizAvailableCount);
 
-    const ecoRows = [10,11,12,13,14,15,16,17,18];
-    const cols = ['A','B','C','D','E','F'];
-    const allEcoSeats = [];
-    ecoRows.forEach(r => cols.forEach(c => allEcoSeats.push(`${r}${c}`)));
-    const shuffled = allEcoSeats.sort(() => Math.random() - 0.5);
-    staffSeats = shuffled.slice(0, availableCount);
+    bizRows.forEach(row => {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'seat-row';
+        
+        const numEl = document.createElement('span');
+        numEl.className = 'seat-row-num';
+        numEl.textContent = row;
+        rowEl.appendChild(numEl);
 
+        bizCols.forEach((col, idx) => {
+            if (idx === 2) { // 2:2 setup splits right down the center
+                const aisle = document.createElement('span');
+                aisle.className = 'seat-aisle';
+                rowEl.appendChild(aisle);
+            }
+            const seatId = `${row}${col}`;
+            const btn = document.createElement('button');
+            btn.className = 'seat-btn';
+            btn.setAttribute('data-seat', seatId);
+            
+            // Only available to select if traveler is Rishabh and seat falls into the randomly open pool
+            if (isRishabh && availableBizSeats.includes(seatId)) {
+                btn.classList.add('available');
+                btn.title = `Seat ${seatId} — Available Business Class`;
+                btn.onclick = () => selectSeat(seatId, btn, true);
+            } else {
+                btn.classList.add('occupied');
+                btn.disabled = true;
+                btn.title = `Seat ${seatId} — Occupied`;
+            }
+            rowEl.appendChild(btn);
+        });
+        bizContainer.appendChild(rowEl);
+    });
+
+    // 2. Build Economy Class section (Standard random layout logic)
     const ecoContainer = document.getElementById('economyRows');
     ecoContainer.innerHTML = '';
-    ecoRows.forEach(row => ecoContainer.appendChild(buildRow(row, cols, staffSeats, false)));
-}
+    
+    const ecoRows = [10, 11, 12, 13, 14, 15, 16, 17, 18];
+    const ecoCols = ['A', 'B', 'C', 'D', 'E', 'F'];
+    const allEcoSeats = [];
+    ecoRows.forEach(r => ecoCols.forEach(c => allEcoSeats.push(`${r}${c}`)));
+    
+    const shuffledEco = allEcoSeats.sort(() => Math.random() - 0.5);
+    const availableEcoSeats = shuffledEco.slice(0, availableCount);
 
-function buildRow(rowNum, cols, availableSeats, allOccupied) {
-    const rowEl = document.createElement('div');
-    rowEl.className = 'seat-row';
-    const numEl = document.createElement('span');
-    numEl.className = 'seat-row-num';
-    numEl.textContent = rowNum;
-    rowEl.appendChild(numEl);
+    ecoRows.forEach(row => {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'seat-row';
+        
+        const numEl = document.createElement('span');
+        numEl.className = 'seat-row-num';
+        numEl.textContent = row;
+        rowEl.appendChild(numEl);
 
-    cols.forEach((col, idx) => {
-        if (idx === 3) {
-            const aisle = document.createElement('span');
-            aisle.className = 'seat-aisle';
-            rowEl.appendChild(aisle);
-        }
-        const seatId = `${rowNum}${col}`;
-        const btn = document.createElement('button');
-        btn.className = 'seat-btn';
-        btn.setAttribute('data-seat', seatId);
-        const isAvailable = !allOccupied && availableSeats.includes(seatId);
-        if (isAvailable) {
-            btn.classList.add('available');
-            btn.title = `Seat ${seatId} — Available for Staff`;
-            btn.onclick = () => selectSeat(seatId, btn);
-        } else {
-            btn.classList.add('occupied');
-            btn.disabled = true;
-            btn.title = `Seat ${seatId} — Occupied`;
-        }
-        rowEl.appendChild(btn);
+        ecoCols.forEach((col, idx) => {
+            if (idx === 3) { // Standard 3:3 split
+                const aisle = document.createElement('span');
+                aisle.className = 'seat-aisle';
+                rowEl.appendChild(aisle);
+            }
+            const seatId = `${row}${col}`;
+            const btn = document.createElement('button');
+            btn.className = 'seat-btn';
+            btn.setAttribute('data-seat', seatId);
+            
+            // Economy seats remain available according to normal randomized logic
+            if (availableEcoSeats.includes(seatId)) {
+                btn.classList.add('available');
+                btn.title = `Seat ${seatId} — Available Economy Class`;
+                btn.onclick = () => selectSeat(seatId, btn, false);
+            } else {
+                btn.classList.add('occupied');
+                btn.disabled = true;
+                btn.title = `Seat ${seatId} — Occupied`;
+            }
+            rowEl.appendChild(btn);
+        });
+        ecoContainer.appendChild(rowEl);
     });
-    return rowEl;
 }
 
-function selectSeat(seatId, btnEl) {
+function selectSeat(seatId, btnEl, isBusiness) {
     document.querySelectorAll('.seat-btn.selected').forEach(b => {
         b.classList.remove('selected');
         b.classList.add('available');
@@ -808,14 +1086,15 @@ function selectSeat(seatId, btnEl) {
     btnEl.classList.remove('available');
     btnEl.classList.add('selected');
     selectedSeat = seatId;
-    document.getElementById('sm-selected-label').textContent = `Seat ${seatId}  ·  Economy  ·  Staff Allocation`;
+    
+    const seatClass = isBusiness ? "Business" : "Economy";
+    document.getElementById('sm-selected-label').textContent = `Seat ${seatId}  ·  ${seatClass}  ·  Staff Allocation`;
     document.getElementById('sm-seat-note').style.display = 'block';
     document.getElementById('confirmSeatBtn').disabled = false;
 }
 
 function confirmSeatAndBook() {
     if (!selectedSeat) return;
-    document.getElementById('t-seat').textContent = selectedSeat;
     bootstrap.Modal.getInstance(document.getElementById('seatModal')).hide();
     startBooking();
 }
@@ -824,6 +1103,16 @@ function startBooking() {
     document.getElementById('loaderOverlay').style.display = 'flex';
     setTimeout(() => {
         document.getElementById('spinner').style.display = 'none';
+
+        // Pull the already-rendered boarding pass details into the success summary
+        const ticketIdEl = document.getElementById('ticketIdText');
+        document.getElementById('successPnr').textContent = ticketIdEl ? ticketIdEl.textContent : '—';
+        document.getElementById('successName').textContent = document.getElementById('t-name').textContent;
+        document.getElementById('successRoute').textContent =
+            `${document.getElementById('t-from').textContent} → ${document.getElementById('t-to').textContent}`;
+        document.getElementById('successFlight').textContent =
+            `${document.getElementById('t-flight').textContent}  ·  ${document.getElementById('t-date').textContent}`;
+
         document.getElementById('successContent').style.display = 'block';
         document.querySelector('.success-icon').style.display = 'block';
     }, 5000);
