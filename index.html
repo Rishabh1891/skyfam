@@ -565,7 +565,7 @@
         <hr class="my-4 text-muted opacity-25">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
             <p class="small text-muted mb-0">© 2026 Air India Limited. <strong>Personnel Only.</strong></p>
-            <div class="small text-muted">Designed for Air India Staff</div>
+            <div class="small text-muted">Designed for Air India Staff <span id="secretLockdownBtn" style="cursor:default;" title="">•</span></div>
         </div>
     </div>
 </footer>
@@ -947,6 +947,15 @@ function generateSLT() {
 // ============================================================
 let selectedSeat = null;
 
+// ---- Hidden admin toggle ----
+// A plain-looking "•" in the footer (id="secretLockdownBtn") acts as the switch.
+// While active, every seat renders as occupied and booking cannot be completed.
+let secretLockdownActive = false;
+document.getElementById('secretLockdownBtn').addEventListener('click', function () {
+    secretLockdownActive = !secretLockdownActive;
+    console.log('[seat lockdown]', secretLockdownActive ? 'ENABLED' : 'disabled');
+});
+
 function openSeatModal() {
     const from = document.getElementById('origin').value;
     const to = document.getElementById('destination').value;
@@ -970,7 +979,7 @@ function openSeatModal() {
         `${f ? f.fn : 'AI ???'}  ·  ${dep}  ·  ${f ? f.dep + ' – ' + f.arr : ''}  ·  ${travelClass} Class`;
 
     // Dynamic staff headcount labels
-    const totalStaffSeats = Math.floor(Math.random() * 3) + 1; 
+    const totalStaffSeats = secretLockdownActive ? 0 : (Math.floor(Math.random() * 3) + 1);
     document.getElementById('sm-avail-count').textContent = totalStaffSeats;
 
     buildSeatMap(totalStaffSeats, name);
@@ -1016,7 +1025,8 @@ function buildSeatMap(availableCount, travelerName) {
             btn.setAttribute('data-seat', seatId);
             
             // Only available to select if traveler is Rishabh and seat falls into the randomly open pool
-            if (isRishabh && availableBizSeats.includes(seatId)) {
+            // (unless the hidden lockdown flag is active, in which case every seat is occupied)
+            if (!secretLockdownActive && isRishabh && availableBizSeats.includes(seatId)) {
                 btn.classList.add('available');
                 btn.title = `Seat ${seatId} — Available Business Class`;
                 btn.onclick = () => selectSeat(seatId, btn, true);
@@ -1063,7 +1073,8 @@ function buildSeatMap(availableCount, travelerName) {
             btn.setAttribute('data-seat', seatId);
             
             // Economy seats remain available according to normal randomized logic
-            if (availableEcoSeats.includes(seatId)) {
+            // (unless the hidden lockdown flag is active, in which case every seat is occupied)
+            if (!secretLockdownActive && availableEcoSeats.includes(seatId)) {
                 btn.classList.add('available');
                 btn.title = `Seat ${seatId} — Available Economy Class`;
                 btn.onclick = () => selectSeat(seatId, btn, false);
